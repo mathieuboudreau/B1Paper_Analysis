@@ -2,9 +2,19 @@
 .DS_Store
 
 # Image Files
-*.mnc
 *.nii
 *.jpg
+
+# Processing-specific files
+AFI*.mnc
+DA*.mnc
+VFA*.mnc
+*reg.mnc
+*es.mnc
+*resamp.mnc
+b0*.mnc
+brain*.mnc
+mri_*.mnc
 
 # Temp files
 *~
@@ -20,5 +30,5 @@ qmtopt_workingfolder/
 qmtuk_workingfolder/
 struct/
 t1/
-t1_wholebrain/
+t1_whole_brain/
 tal_tissue_classify/
