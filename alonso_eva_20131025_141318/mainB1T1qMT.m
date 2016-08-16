@@ -40,54 +40,54 @@ system(['mincreshape -clobber -dimrange time=1,0 ' subjectID '_' num2str(bic_tse
 %% Get Brain and WM mask
 %
 
-% % Convert structural scan too nii
-% system(['perl mnc2nii_opt.pl ', subjectID,'_',num2str(structID),'_mri_reg.mnc',' raw_brain.nii'])
-% 
-% % Extract brain
-% system('bet raw_brain brain -f 0.5 -g 0 -m')
-% 
-% % Gunzip some files
-% system('gunzip brain.nii.gz')
-% system('gunzip brain_mask.nii.gz')
-% 
-% % Convert back to minc
-% system('nii2mnc brain.nii brain.mnc')
-% system('nii2mnc brain_mask.nii brain_mask.mnc')
-% 
-% 
-% % B1 receive sensitivity correction
-% system('nu_correct -clobber brain.mnc brain_n3.mnc')
-% 
-% % Classify brain into other (0), GM (1) and WM (2)
-% system('fuzzyCmeans.bin -no_class 3 -max 100 -mask brain_mask.mnc brain_n3.mnc brain_classified.mnc')
-% 
-% % Get PE %
-% [~,vfa_xlength]=system(['mincinfo -dimlength xspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
-% [~,vfa_ylength]=system(['mincinfo -dimlength yspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
-% % ***Assumes that the PE direction is L->R (xspace)
-% pe_perc = str2double(vfa_xlength)/str2double(vfa_ylength);
-% 
-% % Resample registered structural scan so that slices match the size of the
-% % VFA slices (and all other extracted slice scans), but the X,Y resolution
-% % stays the same as the original structural measurement
-% 
-% % Brain
-% system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain.mnc', ' brain_resamp.mnc']);
-% system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_resamp.mnc ', 'brain_resamp_es.mnc']) % "es" stands for extracted slice
-% 
-% % Brain Mask
-% system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_mask.mnc', ' brain_mask_resamp.mnc']);
-% system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_mask_resamp.mnc ', 'brain_mask_resamp_es.mnc']) % "es" stands for extracted slice
-% 
-% % Brain Classified
-% system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_classified.mnc', ' brain_classified_mask_resamp.mnc']);
-% system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_classified_mask_resamp.mnc ', 'brain_classified_mask_resamp_es.mnc']) % "es" stands for extracted slice
-% 
-% % WM Mask
-% system('minccalc -expression ''abs(A[0]-3) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_wm_mask_resamp_es.mnc')
-% 
-% % GM Mask
-% system('minccalc -expression ''abs(A[0]-2) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_gm_mask_resamp_es.mnc')
+% Convert structural scan too nii
+system(['perl mnc2nii_opt.pl ', subjectID,'_',num2str(structID),'_mri_reg.mnc',' raw_brain.nii'])
+
+% Extract brain
+system('bet raw_brain brain -f 0.5 -g 0 -m')
+
+% Gunzip some files
+system('gunzip brain.nii.gz')
+system('gunzip brain_mask.nii.gz')
+
+% Convert back to minc
+system('nii2mnc brain.nii brain.mnc')
+system('nii2mnc brain_mask.nii brain_mask.mnc')
+
+
+% B1 receive sensitivity correction
+system('nu_correct -clobber brain.mnc brain_n3.mnc')
+
+% Classify brain into other (0), GM (1) and WM (2)
+system('fuzzyCmeans.bin -no_class 3 -max 100 -mask brain_mask.mnc brain_n3.mnc brain_classified.mnc')
+
+% Get PE %
+[~,vfa_xlength]=system(['mincinfo -dimlength xspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
+[~,vfa_ylength]=system(['mincinfo -dimlength yspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
+% ***Assumes that the PE direction is L->R (xspace)
+pe_perc = str2double(vfa_xlength)/str2double(vfa_ylength);
+
+% Resample registered structural scan so that slices match the size of the
+% VFA slices (and all other extracted slice scans), but the X,Y resolution
+% stays the same as the original structural measurement
+
+% Brain
+system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain.mnc', ' brain_resamp.mnc']);
+system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_resamp.mnc ', 'brain_resamp_es.mnc']) % "es" stands for extracted slice
+
+% Brain Mask
+system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_mask.mnc', ' brain_mask_resamp.mnc']);
+system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_mask_resamp.mnc ', 'brain_mask_resamp_es.mnc']) % "es" stands for extracted slice
+
+% Brain Classified
+system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_classified.mnc', ' brain_classified_mask_resamp.mnc']);
+system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_classified_mask_resamp.mnc ', 'brain_classified_mask_resamp_es.mnc']) % "es" stands for extracted slice
+
+% WM Mask
+system('minccalc -expression ''abs(A[0]-3) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_wm_mask_resamp_es.mnc')
+
+% GM Mask
+system('minccalc -expression ''abs(A[0]-2) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_gm_mask_resamp_es.mnc')
 
 system('mincconvert tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1.mnc tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1_minc1.mnc')
 system(['mincresample -invert_transformation -transformation tal_tissue_classify/1/tal/tal_xfm_tal_tissue_classify_1_t1w.xfm -like ' subjectID '_' num2str(structID) '_mri.mnc' ' tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1_minc1.mnc brain_classified.mnc'])
