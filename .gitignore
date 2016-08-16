@@ -1,6 +1,9 @@
 # Mac files
 .DS_Store
 
+# Python files
+__pycache__/
+
 # Image Files
 *.nii
 *.jpg
