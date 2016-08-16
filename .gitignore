@@ -14,7 +14,9 @@ VFA*.mnc
 *resamp.mnc
 b0*.mnc
 brain*.mnc
-mri_*.mnc
+*mri_*.mnc
+*mri_1.mnc
+*mri_2.mnc
 
 # Temp files
 *~
