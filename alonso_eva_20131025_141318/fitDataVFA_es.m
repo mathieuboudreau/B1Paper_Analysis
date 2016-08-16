@@ -34,7 +34,7 @@ files = cell(1,length(vfaIndeces));
 vfaFlip = zeros(1,length(vfaIndeces));
 vfaFilesAligned = cell(1,length(vfaIndeces));
 
-filesHeader = cell(1,vfaIndeces);
+filesHeader = cell(1,length(vfaIndeces));
 
 for ii=1:numel(vfaIndeces)
     files{ii} = [subjectID '_' num2str(vfaIndeces(ii)) '_mri_es.mnc'];
