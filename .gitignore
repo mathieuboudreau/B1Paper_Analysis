@@ -1,0 +1,24 @@
+# Mac files
+.DS_Store
+
+# Image Files
+*.mnc
+*.nii
+*.jpg
+
+# Temp files
+*~
+
+# Processed files
+*.mat
+*.xfm
+b0/
+b1/
+b1_whole_brain/
+mask/
+qmtopt_workingfolder/
+qmtuk_workingfolder/
+struct/
+t1/
+t1_wholebrain/
+tal_tissue_classify/
