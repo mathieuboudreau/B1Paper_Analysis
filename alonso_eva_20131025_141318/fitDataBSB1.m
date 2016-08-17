@@ -76,19 +76,19 @@ switch flag_minc_loader
     bsB1Map = reshape(bsB1Map,w,l,N);  
     b1_hdr = h1_hdr;
     b1_hdr.file_name = output;
-    niak_write_minc(b1_hdr,bsB1Map);
+    niak_write_minc_ss(b1_hdr,bsB1Map);
     
-    if N==1
-        % **** Next section needed because of a flaw in Niak ****
-        % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-        % write out the 3rd dimension (of size 1).
-
-        [~,zStart]=system(['mincinfo -attvalue zspace:start ' img1]);
-        [~,zStep]=system(['mincinfo -attvalue zspace:step ' img1]);
-
-        system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' output ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-        system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' output]) 
-        system('rm temp.mnc')
-    end
+%     if N==1
+%         % **** Next section needed because of a flaw in Niak ****
+%         % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
+%         % write out the 3rd dimension (of size 1).
+% 
+%         [~,zStart]=system(['mincinfo -attvalue zspace:start ' img1]);
+%         [~,zStep]=system(['mincinfo -attvalue zspace:step ' img1]);
+% 
+%         system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' output ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
+%         system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' output]) 
+%         system('rm temp.mnc')
+%     end
 end
 

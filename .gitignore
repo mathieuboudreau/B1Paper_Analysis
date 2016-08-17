@@ -21,6 +21,8 @@ brain*.mnc
 *mri_1.mnc
 *mri_2.mnc
 b1*.mnc
+t1*.mnc
+*.imp
 
 # Temp files
 *~

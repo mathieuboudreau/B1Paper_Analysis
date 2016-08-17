@@ -159,25 +159,25 @@ T1image(isnan(T1image))=0;
 
 t1hdr = niak_read_hdr_minc('AFI_1.mnc');
 t1hdr.file_name = outT1;
-niak_write_minc(t1hdr,T1image);
+niak_write_minc_ss(t1hdr,T1image);
 
-% **** Next section needed because of a flaw in Niak ****
-% When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-% write out the 3rd dimension (of size 1).
-
-[~,zStart]=system(['mincinfo -attvalue zspace:start ' img{i}]);
-[~,zStep]=system(['mincinfo -attvalue zspace:step ' img{i}]);
-
-system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' outT1 ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' outT1]) 
-system('rm temp.mnc')
+% % **** Next section needed because of a flaw in Niak ****
+% % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
+% % write out the 3rd dimension (of size 1).
+% 
+% [~,zStart]=system(['mincinfo -attvalue zspace:start ' img{i}]);
+% [~,zStep]=system(['mincinfo -attvalue zspace:step ' img{i}]);
+% 
+% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' outT1 ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
+% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' outT1]) 
+% system('rm temp.mnc')
 
 t1hdr.file_name = outM0;
-niak_write_minc(t1hdr,M0image);
+niak_write_minc_ss(t1hdr,M0image);
 
-system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' outM0 ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' outM0]) 
-system('rm temp.mnc')
+% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' outM0 ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
+% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' outM0]) 
+% system('rm temp.mnc')
 
 return;
 

@@ -157,18 +157,18 @@ load T1FitRD-NLS-PR_data.mat
 study_info
 IR_hdr=niak_read_hdr_minc([subjectID '_' num2str(clt_tse_irID(1)) '_mri.mnc']);
 IR_hdr.file_name='t1_clt_tse_ir.mnc';
-niak_write_minc(IR_hdr,imrotate(squeeze(ll_T1(:,:,:,1)),90)./1000);
-
-% **** Next section needed because of a flaw in Niak ****
-% When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-% write out the 3rd dimension (of size 1).
-
-[~,zStart]=system(['mincinfo -attvalue zspace:start ' subjectID '_' num2str(clt_vfaID(1)) '_mri_es.mnc']);
-[~,zStep]=system(['mincinfo -attvalue zspace:step ' subjectID '_' num2str(clt_vfaID(1)) '_mri_es.mnc']);
-
-system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 t1_clt_tse_ir.mnc temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc t1_clt_tse_ir.mnc']) 
-system('rm temp.mnc')
+niak_write_minc_ss(IR_hdr,imrotate(squeeze(ll_T1(:,:,:,1)),90)./1000);
+% 
+% % **** Next section needed because of a flaw in Niak ****
+% % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
+% % write out the 3rd dimension (of size 1).
+% 
+% [~,zStart]=system(['mincinfo -attvalue zspace:start ' subjectID '_' num2str(clt_vfaID(1)) '_mri_es.mnc']);
+% [~,zStep]=system(['mincinfo -attvalue zspace:step ' subjectID '_' num2str(clt_vfaID(1)) '_mri_es.mnc']);
+% 
+% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 t1_clt_tse_ir.mnc temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
+% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc t1_clt_tse_ir.mnc']) 
+% system('rm temp.mnc')
 
 % LL
 

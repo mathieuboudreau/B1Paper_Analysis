@@ -85,7 +85,7 @@ magFilename = [subjectID '_' num2str(file_index(1)) '_mri.mnc'];
 mask(mask<noiseFloorDataMagnitude) = 0;
 mask = cast(mask, 'logical');
 mask_hdr.file_name = ['mask/' maskFilename];
-niak_write_minc(mask_hdr,mask);
+niak_write_minc_ss(mask_hdr,mask);
 
 %% Run processing script
 %
