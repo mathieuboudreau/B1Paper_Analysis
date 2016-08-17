@@ -79,6 +79,9 @@ b1 = acos(r/4 + sp*(sqrt(r.^2 + 8)/4))/(alpha*pi/180);
 % clamp between bounds
 b1 = b1 + (b1 > bounds(2)).*(bounds(2)-b1) + (b1 < bounds(1)).*(bounds(1)-b1);
 
+% Ensure b1 is not complex
+b1 = abs(b1);
+
 %xdisp(reshape(b1,w,l));
 
 %-----------------------------------------------------------------------------------
@@ -95,6 +98,14 @@ switch flag_minc_loader
     b1 = reshape(b1,w,l,N);  
     b1_hdr = h_hdr;
     b1_hdr.file_name = output;
+    
+    % Remove 4th dimension detail from header files
+    temp = b1_hdr.details;
+    temp = rmfield(temp,'time');
+    b1_hdr.details = temp;
+    b1_hdr.info.dimensions = b1_hdr.info.dimensions(1:3);
+    b1_hdr.info.dimension_order = b1_hdr.info.dimension_order(1:3);
+
     niak_write_minc_ss(b1_hdr,b1);
     
 %     if N==1
