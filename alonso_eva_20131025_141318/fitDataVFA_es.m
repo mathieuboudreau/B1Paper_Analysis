@@ -39,7 +39,7 @@ filesHeader = cell(1,length(vfaIndeces));
 for ii=1:numel(vfaIndeces)
     files{ii} = [subjectID '_' num2str(vfaIndeces(ii)) '_mri_es.mnc'];
     filesHeader{ii} = niak_read_hdr_minc(cell2mat(files(ii)));
-    vfaFlip(ii) = cell2mat(filesHeader{ii}.details.acquisition.attvalue(19));
+    vfaFlip(ii) = cell2mat(filesHeader{ii}.details.acquisition.attvalue(getAttributeIndexNiak(filesHeader{ii},'flip_angle')));
     vfaFilesAligned{ii} = ['VFA_' num2str(vfaFlip(ii)) '.mnc'];
 end
 
@@ -74,7 +74,7 @@ niak_write_minc_ss(maskhdr,mask);
 
 % Now we process the T1 map, using the above b1 map
 
-TR = cell2mat(filesHeader{1}.details.acquisition.attvalue(15));
+TR = cell2mat(filesHeader{ii}.details.acquisition.attvalue(getAttributeIndexNiak(filesHeader{ii},'repetition_time')));
 
 
 if (numel(vfaIndeces) == 2)
