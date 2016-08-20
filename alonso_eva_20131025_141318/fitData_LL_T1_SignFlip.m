@@ -47,7 +47,7 @@ function fitData_LL_T1_SignFlip(subjectID, dataDir, file_index, t1Filename, mask
 noiseFloorDataMagnitude = 50;
 
 mag_hdr = niak_read_hdr_minc([subjectID '_' num2str(file_index) 'e1_mri.mnc']);
-sequence_type = cell2mat(mag_hdr.details.acquisition.attvalue(11));
+sequence_type = cell2mat(mag_hdr.details.acquisition.attvalue(getAttributeIndexNiak(mag_hdr,'series_description')));
 
 switch sequence_type
     case 'ep_seg_fid_qt1_flex '
