@@ -89,6 +89,9 @@ system('minccalc -expression ''abs(A[0]-3) < 0.001 ? 1 : 0'' brain_classified_ma
 % GM Mask
 system('minccalc -expression ''abs(A[0]-2) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_gm_mask_resamp_es.mnc')
 
+% Generate tal files using this command: standard_pipeline.pl tal_tissue_classify 1 alonso_eva_20131025_141318_75_mri.mnc --prefix . --model_dir /opt/minc/share/icbm152_model_09c --model mni_icbm152_t1_tal_nlin_sym_09c -beastlib /opt/minc/share/beast-library-1.1
+% On my current latop (Mac OS 10.11), the pipeline aborts near the end, but
+% after the required files are generated. The pipeline takes about an hour.
 system('mincconvert tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1.mnc tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1_minc1.mnc')
 system(['mincresample -invert_transformation -transformation tal_tissue_classify/1/tal/tal_xfm_tal_tissue_classify_1_t1w.xfm -like ' subjectID '_' num2str(structID) '_mri.mnc' ' tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1_minc1.mnc brain_classified.mnc'])
 
