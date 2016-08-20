@@ -37,7 +37,7 @@ for k = 1:nbseries
         % sizedata = size(data)
 		data(:,:,ss,k) = dataTmp(:,:,ss)'; 
     end
-	extra.tVec(k) = 1000*cell2mat(d_hdr{k}.details.acquisition.attvalue(19));
+	extra.tVec(k) = 1000*cell2mat(d_hdr{k}.details.acquisition.attvalue(getAttributeIndexNiak(d_hdr{k},'inversion_time')));
 end 
 
 % This is where you would correct the phase of certain datapoints. 
