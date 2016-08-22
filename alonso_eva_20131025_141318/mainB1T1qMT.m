@@ -72,16 +72,6 @@ system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_resamp.mnc ', 'bra
 system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_mask.mnc', ' brain_mask_resamp.mnc']);
 system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_mask_resamp.mnc ', 'brain_mask_resamp_es.mnc']) % "es" stands for extracted slice
 
-% Brain Classified
-system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_classified.mnc', ' brain_classified_mask_resamp.mnc']);
-system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_classified_mask_resamp.mnc ', 'brain_classified_mask_resamp_es.mnc']) % "es" stands for extracted slice
-
-% WM Mask
-system('minccalc -expression ''abs(A[0]-3) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_wm_mask_resamp_es.mnc')
-
-% GM Mask
-system('minccalc -expression ''abs(A[0]-2) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_gm_mask_resamp_es.mnc')
-
 % Generate tal files using this command: standard_pipeline.pl tal_tissue_classify 1 alonso_eva_20131025_141318_75_mri.mnc --prefix . --model_dir /opt/minc/share/icbm152_model_09c --model mni_icbm152_t1_tal_nlin_sym_09c -beastlib /opt/minc/share/beast-library-1.1
 % On my current latop (Mac OS 10.11), the pipeline aborts near the end, but
 % after the required files are generated. The pipeline takes about an hour.
