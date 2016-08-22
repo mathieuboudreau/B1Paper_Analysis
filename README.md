@@ -24,7 +24,17 @@ and [wiki](https://en.wikibooks.org/wiki/MINC).
 
 ## Installation
 
-This section was temporarily left empty.
+All MINC files should be MINC2 format. To verify, `mincinfo -minc_version file.mnc` should return: `Version: 2 (HDF5)`
+
+To convert a single file from MINC1 to MINC2:
+
+`mincconvert -2 oldMinc1File.mnc newMinc2File.mnc`
+
+The repo also contains a Python3 script that will convert all files in the specifies directory from MINC1 to MINC2.
+
+**WARNING** Backup your original files first. All MINC files will be overwritten with MINC2 versions of the files.
+
+The script is `convert_dir_minc1_to_minc2.py` and can be called with `python convert_dir_minc1_to_minc2(dirPath)`.
 
 ## Tests
 
