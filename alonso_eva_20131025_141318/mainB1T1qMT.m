@@ -301,7 +301,7 @@ end
 title('WM masked brain T1 histogram')
 xlabel('T1 (s)')
 
-namesB1 = {'clt\_tse','bic\_clt','clt\_afi','clt\_bs'};
+namesB1 = {'clt\_tse','ep\_seg\_da','clt\_afi','clt\_bs'};
 namesT1 = {'ir    ','ll    ','vfa   ','vfa\_opt'};
 
 
