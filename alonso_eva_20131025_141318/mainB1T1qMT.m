@@ -101,7 +101,6 @@ do_ratio_b1_single([subjectID '_' num2str(bic_tseID) '_mri.mnc'], 33, 'b1_bic_ts
 
 % Bloch Siegert
 
-%fitDataBSB1([subjectID '_' num2str(clt_bsID(1)) 'd1_mri_resamp_es.mnc'], [subjectID '_' num2str(clt_bsID(2)) 'd2_mri_resamp_es.mnc'], 500, 0.008, 'gauss', 'b1_clt_bs.mnc')
 fitDataBSB1([subjectID '_' num2str(mb_clt_gre_bs_cr_fermiID(1)) 'd1_mri.mnc'], [subjectID '_' num2str(mb_clt_gre_bs_cr_fermiID(2)) 'd2_mri.mnc'], 500, 0.008, 'fermi', 'b1_clt_gre_bs_cr_fermi.mnc')
 fitDataBSB1([subjectID '_' num2str(mb_gre_bsID(1)) 'd1_mri.mnc'], [subjectID '_' num2str(mb_gre_bsID(2)) 'd2_mri.mnc'], 500, 0.008, 'fermi', 'b1_mb_gre_bs_fermi.mnc')
 fitDataBSB1([subjectID '_' num2str(mb_clt_gre_bs_crushID(1)) 'd1_mri.mnc'], [subjectID '_' num2str(mb_clt_gre_bs_crushID(2)) 'd2_mri.mnc'], 500, 0.008, 'gauss', 'b1_clt_gre_bs_cr_gauss.mnc')
@@ -146,7 +145,6 @@ niak_write_minc_ss(IR_hdr,imrotate(squeeze(ll_T1(:,:,:,1)),90)./1000);
 
 % LL
 
-%fitData_LL_T1(subjectID, cd, ep_segID, 'b1_clt_afi.mnc', [subjectID '_' num2str(structID) '_mri_reg_resamp.mnc'])
 fitData_LL_T1_SignFlip(subjectID, cd, ep_segID(1), 't1_ep_seg_b1_clt_afi.mnc', 'mask.mnc')
 
 %% Move files into organized folders
@@ -170,24 +168,20 @@ system('cp -r b1/ b1_whole_brain/')
 %%%%%% Get masks %%%%%%
 
 % For IR
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_clt_tse_ir.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_ss_2x2x5.mnc')
 maskMajorityVoting('t1/t1_clt_tse_ir.mnc', 'brain_classified.mnc',3,'brain_classified_ir');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_ir_wm_perc.mnc mask/brain_wm_mask_resamp_ir_2x2x5.mnc')
 
 
 % Extracted slices from 3D
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_clt_vfa_b1_clt_afi.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_es_2x2x5.mnc')
 maskMajorityVoting('t1/t1_clt_vfa_b1_clt_afi.mnc', 'brain_classified.mnc',3,'brain_classified_afi');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_afi_wm_perc.mnc mask/brain_wm_mask_resamp_es_2x2x5.mnc')
 
 
 % For LL
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_ep_seg_b1_clt_tse.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_ss_2x2x5.mnc')
 maskMajorityVoting('t1/t1_ep_seg_b1_clt_afi.mnc', 'brain_classified.mnc',3,'brain_classified_ll');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_ll_wm_perc.mnc mask/brain_wm_mask_resamp_ll_2x2x5.mnc')
 
 % For EPSEG
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_ep_seg_b1_clt_tse.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_ss_2x2x5.mnc')
 maskMajorityVoting('b1/b1_epseg_da.mnc', 'brain_classified.mnc',3,'brain_classified_epseg');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_epseg_wm_perc.mnc mask/brain_wm_mask_resamp_epseg_2x2x5.mnc')
 
