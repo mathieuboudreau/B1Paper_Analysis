@@ -17,6 +17,10 @@ MINC is a file format used for medical imaging purposes that was developed at th
      * For more information about the MINC Toolkit, visit the [software website](http://www.bic.mni.mcgill.ca/ServicesSoftware/MINC)
 and [wiki](https://en.wikibooks.org/wiki/MINC).
 
+* [BEaST segmentation library](http://bic-mni.github.io/#data-files-and-models)
+
+* [bic-mni-models anatomical template library](http://bic-mni.github.io/#data-files-and-models)
+
 * [FSL (BET)](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation)
     * Installing FSL requires Python 2.7, use a virtual environment tool such as conda 
       e.g. `conda create --name py27 python=2.7`
