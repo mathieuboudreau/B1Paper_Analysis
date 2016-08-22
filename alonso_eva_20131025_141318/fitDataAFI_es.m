@@ -73,14 +73,3 @@ b1 = alpha/(pi/3);
 b1hdr = afi1hdr;
 b1hdr.file_name = b1Out;
 niak_write_minc_ss(b1hdr,b1);
-
-% % **** Next section needed because of a flaw in Niak ****
-% % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-% % write out the 3rd dimension (of size 1).
-% 
-% [~,zStart]=system(['mincinfo -attvalue zspace:start ' subjectID '_' num2str(afiIndeces(1)) 'd1_mri_es.mnc']);
-% [~,zStep]=system(['mincinfo -attvalue zspace:step ' subjectID '_' num2str(afiIndeces(1)) 'd1_mri_es.mnc']);
-% 
-% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 '  b1Out ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' b1Out]) 
-% system('rm temp.mnc')

@@ -134,18 +134,5 @@ h_hdr.info.dimension_order = h_hdr.info.dimension_order(1:3);
 
 niak_write_minc_ss(h_hdr, reshape(t1_fit,width(1),height(1),num_slices(1)))
 
-% % **** Next section needed because of a flaw in Niak ****
-% % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-% % write out the 3rd dimension (of size 1).
-%
-% [~,zStart]=system(['mincinfo -attvalue zspace:start ' mask_file_name]);
-% [~,zStep]=system(['mincinfo -attvalue zspace:step ' mask_file_name]);
-%
-% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' t1_file_name ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc t1.mnc'])
-% system('rm temp.mnc')
-% system(['rm ' t1_file_name])
-% system(['mv t1.mnc ' t1_file_name])
-
 end
 

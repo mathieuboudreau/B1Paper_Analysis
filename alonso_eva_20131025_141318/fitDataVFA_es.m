@@ -61,17 +61,6 @@ maskhdr = vfahdr;
 maskhdr.file_name = [t1Out, '_mask.mnc'];
 niak_write_minc_ss(maskhdr,mask);
 
-% % **** Next section needed because of a flaw in Niak ****
-% % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-% % write out the 3rd dimension (of size 1).
-% 
-% [~,zStart]=system(['mincinfo -attvalue zspace:start ' vfaFilesAligned{2}])
-% [~,zStep]=system(['mincinfo -attvalue zspace:step ' vfaFilesAligned{2}])
-% 
-% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' [t1Out, '_mask.mnc'] ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' [t1Out, '_mask.mnc']]) 
-% system('rm temp.mnc')
-
 % Now we process the T1 map, using the above b1 map
 
 TR = cell2mat(filesHeader{ii}.details.acquisition.attvalue(getAttributeIndexNiak(filesHeader{ii},'repetition_time')));
