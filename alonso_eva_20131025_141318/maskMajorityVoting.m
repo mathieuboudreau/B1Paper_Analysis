@@ -124,27 +124,6 @@ if numberOfClasses == 3
     wm_hdr.file_name = [outputBaseName '_wm_perc.mnc'];
     niak_write_minc_ss(wm_hdr,double(squeeze(percentageTissue(:,:,:,4))));
 
-%     % **** Next section needed because of a flaw in Niak ****
-%     % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-%     % write out the 3rd dimension (of size 1).
-% 
-%     [~,zStart]=system(['mincinfo -attvalue zspace:start ' inputMincVolume]);
-%     [~,zStep]=system(['mincinfo -attvalue zspace:step ' inputMincVolume]);
-% 
-%     system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' csf_hdr.file_name ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-%     system(['rm ' csf_hdr.file_name])
-%     system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' csf_hdr.file_name]) 
-%     system('rm temp.mnc')
-% 
-%     system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' gm_hdr.file_name ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-%     system(['rm ' gm_hdr.file_name])
-%     system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' gm_hdr.file_name]) 
-%     system('rm temp.mnc')
-% 
-%     system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 ' wm_hdr.file_name ' temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-%     system(['rm ' wm_hdr.file_name])
-%     system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc ' wm_hdr.file_name]) 
-%     system('rm temp.mnc')
 else
     % Nothing, return percentageTissue.
 end

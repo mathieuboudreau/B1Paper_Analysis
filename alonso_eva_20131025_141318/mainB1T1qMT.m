@@ -54,13 +54,6 @@ system('gunzip brain_mask.nii.gz')
 system('nii2mnc brain.nii brain.mnc')
 system('nii2mnc brain_mask.nii brain_mask.mnc')
 
-
-% B1 receive sensitivity correction
-system('nu_correct -clobber brain.mnc brain_n3.mnc')
-
-% Classify brain into other (0), GM (1) and WM (2)
-system('fuzzyCmeans.bin -no_class 3 -max 100 -mask brain_mask.mnc brain_n3.mnc brain_classified.mnc')
-
 % Get PE %
 [~,vfa_xlength]=system(['mincinfo -dimlength xspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
 [~,vfa_ylength]=system(['mincinfo -dimlength yspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
@@ -79,21 +72,10 @@ system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_resamp.mnc ', 'bra
 system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_mask.mnc', ' brain_mask_resamp.mnc']);
 system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_mask_resamp.mnc ', 'brain_mask_resamp_es.mnc']) % "es" stands for extracted slice
 
-% Brain Classified
-system(['mincresample -clob -like ', subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ', '-step ', num2str(str2double(struct_xstep)), ' ', num2str(str2double(struct_ystep)), ' ', num2str(str2double(vfa_zstep)), ' -nelements ', num2str(str2double(struct_xlength)*pe_perc), ' ', num2str(str2double(struct_ylength)), ' ', num2str(str2double(vfa_zlength)), ' brain_classified.mnc', ' brain_classified_mask_resamp.mnc']);
-system(['mincreshape -clobber -dimrange zspace=16,1', ' brain_classified_mask_resamp.mnc ', 'brain_classified_mask_resamp_es.mnc']) % "es" stands for extracted slice
-
-% WM Mask
-system('minccalc -expression ''abs(A[0]-3) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_wm_mask_resamp_es.mnc')
-
-% GM Mask
-system('minccalc -expression ''abs(A[0]-2) < 0.001 ? 1 : 0'' brain_classified_mask_resamp_es.mnc brain_gm_mask_resamp_es.mnc')
-
 % Generate tal files using this command: standard_pipeline.pl tal_tissue_classify 1 alonso_eva_20131025_141318_75_mri.mnc --prefix . --model_dir /opt/minc/share/icbm152_model_09c --model mni_icbm152_t1_tal_nlin_sym_09c -beastlib /opt/minc/share/beast-library-1.1
 % On my current latop (Mac OS 10.11), the pipeline aborts near the end, but
 % after the required files are generated. The pipeline takes about an hour.
-system('mincconvert tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1.mnc tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1_minc1.mnc')
-system(['mincresample -invert_transformation -transformation tal_tissue_classify/1/tal/tal_xfm_tal_tissue_classify_1_t1w.xfm -like ' subjectID '_' num2str(structID) '_mri.mnc' ' tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1_minc1.mnc brain_classified.mnc'])
+system(['mincresample -invert_transformation -transformation tal_tissue_classify/1/tal/tal_xfm_tal_tissue_classify_1_t1w.xfm -like ' subjectID '_' num2str(structID) '_mri.mnc' ' tal_tissue_classify/1/tal_cls/tal_clean_tal_tissue_classify_1.mnc brain_classified.mnc'])
 
 %% Calculate B1 maps
 %
@@ -119,7 +101,6 @@ do_ratio_b1_single([subjectID '_' num2str(bic_tseID) '_mri.mnc'], 33, 'b1_bic_ts
 
 % Bloch Siegert
 
-%fitDataBSB1([subjectID '_' num2str(clt_bsID(1)) 'd1_mri_resamp_es.mnc'], [subjectID '_' num2str(clt_bsID(2)) 'd2_mri_resamp_es.mnc'], 500, 0.008, 'gauss', 'b1_clt_bs.mnc')
 fitDataBSB1([subjectID '_' num2str(mb_clt_gre_bs_cr_fermiID(1)) 'd1_mri.mnc'], [subjectID '_' num2str(mb_clt_gre_bs_cr_fermiID(2)) 'd2_mri.mnc'], 500, 0.008, 'fermi', 'b1_clt_gre_bs_cr_fermi.mnc')
 fitDataBSB1([subjectID '_' num2str(mb_gre_bsID(1)) 'd1_mri.mnc'], [subjectID '_' num2str(mb_gre_bsID(2)) 'd2_mri.mnc'], 500, 0.008, 'fermi', 'b1_mb_gre_bs_fermi.mnc')
 fitDataBSB1([subjectID '_' num2str(mb_clt_gre_bs_crushID(1)) 'd1_mri.mnc'], [subjectID '_' num2str(mb_clt_gre_bs_crushID(2)) 'd2_mri.mnc'], 500, 0.008, 'gauss', 'b1_clt_gre_bs_cr_gauss.mnc')
@@ -161,21 +142,9 @@ study_info
 IR_hdr=niak_read_hdr_minc([subjectID '_' num2str(clt_tse_irID(1)) '_mri.mnc']);
 IR_hdr.file_name='t1_clt_tse_ir.mnc';
 niak_write_minc_ss(IR_hdr,imrotate(squeeze(ll_T1(:,:,:,1)),90)./1000);
-% 
-% % **** Next section needed because of a flaw in Niak ****
-% % When writing out a single slice image, Niak (or at lease, 0.6.3) does not
-% % write out the 3rd dimension (of size 1).
-% 
-% [~,zStart]=system(['mincinfo -attvalue zspace:start ' subjectID '_' num2str(clt_vfaID(1)) '_mri_es.mnc']);
-% [~,zStep]=system(['mincinfo -attvalue zspace:step ' subjectID '_' num2str(clt_vfaID(1)) '_mri_es.mnc']);
-% 
-% system(['mincconcat -clobber -concat_dimension zspace -start ' num2str(str2double(zStart)) ' -step 1 t1_clt_tse_ir.mnc temp.mnc']) % even if I set step to something different to 1, it always makes it 1 ??!?
-% system(['mincresample -clobber -zstep ' num2str(str2double(zStep)) ' temp.mnc t1_clt_tse_ir.mnc']) 
-% system('rm temp.mnc')
 
 % LL
 
-%fitData_LL_T1(subjectID, cd, ep_segID, 'b1_clt_afi.mnc', [subjectID '_' num2str(structID) '_mri_reg_resamp.mnc'])
 fitData_LL_T1_SignFlip(subjectID, cd, ep_segID(1), 't1_ep_seg_b1_clt_afi.mnc', 'mask.mnc')
 
 %% Move files into organized folders
@@ -199,24 +168,20 @@ system('cp -r b1/ b1_whole_brain/')
 %%%%%% Get masks %%%%%%
 
 % For IR
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_clt_tse_ir.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_ss_2x2x5.mnc')
 maskMajorityVoting('t1/t1_clt_tse_ir.mnc', 'brain_classified.mnc',3,'brain_classified_ir');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_ir_wm_perc.mnc mask/brain_wm_mask_resamp_ir_2x2x5.mnc')
 
 
 % Extracted slices from 3D
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_clt_vfa_b1_clt_afi.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_es_2x2x5.mnc')
 maskMajorityVoting('t1/t1_clt_vfa_b1_clt_afi.mnc', 'brain_classified.mnc',3,'brain_classified_afi');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_afi_wm_perc.mnc mask/brain_wm_mask_resamp_es_2x2x5.mnc')
 
 
 % For LL
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_ep_seg_b1_clt_tse.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_ss_2x2x5.mnc')
 maskMajorityVoting('t1/t1_ep_seg_b1_clt_afi.mnc', 'brain_classified.mnc',3,'brain_classified_ll');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_ll_wm_perc.mnc mask/brain_wm_mask_resamp_ll_2x2x5.mnc')
 
 % For EPSEG
-%system('mincresample -clobber -nearest_neighbour -like t1/t1_ep_seg_b1_clt_tse.mnc mask/brain_classified_mask_resamp.mnc mask/brain_classified_mask_resamp_ss_2x2x5.mnc')
 maskMajorityVoting('b1/b1_epseg_da.mnc', 'brain_classified.mnc',3,'brain_classified_epseg');
 system('minccalc -expression ''A[0] > 75.1 ? 1 : 0'' brain_classified_epseg_wm_perc.mnc mask/brain_wm_mask_resamp_epseg_2x2x5.mnc')
 
