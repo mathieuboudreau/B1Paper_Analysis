@@ -26,6 +26,8 @@ and [wiki](https://en.wikibooks.org/wiki/MINC).
       e.g. `conda create --name py27 python=2.7`
       then `source activate py27`
 
+* [NeuroImaging Analysis Kit (NIAK)](https://www.nitrc.org/projects/niak/)
+
 ## Installation
 
 All MINC files should be MINC2 format. To verify, `mincinfo -minc_version file.mnc` should return: `Version: 2 (HDF5)`
