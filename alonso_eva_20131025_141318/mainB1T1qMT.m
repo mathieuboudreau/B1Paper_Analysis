@@ -54,13 +54,6 @@ system('gunzip brain_mask.nii.gz')
 system('nii2mnc brain.nii brain.mnc')
 system('nii2mnc brain_mask.nii brain_mask.mnc')
 
-
-% B1 receive sensitivity correction
-system('nu_correct -clobber brain.mnc brain_n3.mnc')
-
-% Classify brain into other (0), GM (1) and WM (2)
-system('fuzzyCmeans.bin -no_class 3 -max 100 -mask brain_mask.mnc brain_n3.mnc brain_classified.mnc')
-
 % Get PE %
 [~,vfa_xlength]=system(['mincinfo -dimlength xspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
 [~,vfa_ylength]=system(['mincinfo -dimlength yspace ',subjectID, '_', num2str(clt_vfaID(2)), '_mri.mnc ']);
