@@ -257,6 +257,6 @@ system('mv b1/temp.mnc b1/b1_clt_gre_bs_cr_fermi.mnc')
 %% Return to old dir
 %
 
-cd(olddir)
+cd(dataDir)
 
 end
