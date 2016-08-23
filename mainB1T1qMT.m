@@ -136,7 +136,7 @@ fitDataVFA_es (subjectID, clt_vfa_spoilID, 'b1_clt_gre_bs_cr_fermi.mnc', 't1_clt
 
 % IR
 
-getDataMag_niak(subjectID,clt_tse_irID)
+getDataMag_niak_mb(subjectID,clt_tse_irID)
 mainScan_mb
 
 load T1FitRD-NLS-PR_data.mat
