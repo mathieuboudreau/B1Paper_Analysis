@@ -21,7 +21,19 @@ if (nargin > 3)
 else
     %eval(['!minctracc -clob -identity -mi ' mincSource ' ' ref ' -lsq6 -debug -threshold 30 5 transform.xfm -simplex 1 -clobber']);
     eval(['!minctracc -clob -identity -mi ' mincSource ' ' ref ' -lsq6 -debug transform.xfm -simplex 1 -clobber']);
-    eval(['!mincresample -clob -transformation transform.xfm ' mincSource ' -use_input_sampling ' mincDestination]);
+    imvalid = false;
+    while(~imvalid)
+        eval(['!mincresample -clob -transformation transform.xfm ' mincSource ' -use_input_sampling ' mincDestination]);
+        [~,medianValue]=system(['mincstats -median ' mincDestination ' | grep Median']);
+        medianValue = str2double(medianValue(19:end));
+        if(abs(medianValue)>1e+40)
+            imvalid = false;
+        elseif (isnan(medianValue))
+             imvalid = false;
+        else
+            imvalid = true;
+        end
+    end
 end
 
 %eval(['!mincresample -like ' ref ' ' mincSource ' ' mincDestination ]);
