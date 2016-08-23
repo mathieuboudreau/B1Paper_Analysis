@@ -75,10 +75,10 @@ for ii = 1:length(b1)
     B1percdiff(isnan(B1percdiff)) = 0;
     B1percdiff(isinf(B1percdiff)) = 0;
     B1percdiff((-101<B1percdiff) & (B1percdiff<-99)) = 0; % Fix bug
-    b1err{ii} = sum(sum(b1percdiff));
+    b1err{ii} = sum(sum(B1percdiff));
 end
 
-for ii = 1:length(b1)
+for ii = 1:length(t1)
     figure()
     subplot(1,3,1)
     imagesc(imrotate(t1{ii},-90)),caxis([0.7,1.3])
