@@ -34,12 +34,12 @@ t1*.mnc
 *.mat
 *.xfm
 b0/
-b1/
+data/*/b1/
 b1_whole_brain/
 mask/
 qmtopt_workingfolder/
 qmtuk_workingfolder/
 struct/
-t1/
+data/*/t1/
 t1_whole_brain/
 tal_tissue_classify/
