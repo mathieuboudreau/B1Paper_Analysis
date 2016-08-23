@@ -1,17 +1,19 @@
+function [] = mainB1T1qMT(dataDir,studyFile)
+%mainB1T1qMT Full processing for B1T1 processing
+%   --Arguments--
+%   string dataDir: 
+%
+%   string studyFile: string to location of study_info.m file. Since the
+%   working directory is dataDir, if the file is located here, 'study_info'
+%   will be sufficient. Otherwise, the full path is recommended
+
 %% B1T1qMT Comparison
 %
-
-%% Clear session
-%
-
-clear all
-clc
-close all
 
 %% Make directories
 %
 
-olddir = cd;
+olddir = cd(dataDir);
 
 mkdir t1
 mkdir b1
@@ -23,7 +25,7 @@ mkdir struct
 %
 
 % **Needs to be manually modified for each scans/protocol**
-study_info
+run(studyFile)
 
 %% Get single slice images from 3D data
 %
@@ -232,3 +234,29 @@ system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_res
 system('rm t1/t1_clt_vfa_spoil_b1_clt_bs.mnc')
 system('mv t1/temp.mnc t1/t1_clt_vfa_spoil_b1_clt_bs.mnc')
 
+
+%% Make B1 maps and stats
+%
+
+system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_ll_2x2x5.mnc b1/b1_clt_tse.mnc b1/temp.mnc')
+system('mv b1/temp.mnc b1/b1_clt_tse.mnc')
+
+
+system('mincresample -nearest_neighbour -like b1/b1_epseg_da.mnc mask/brain_wm_mask_resamp_epseg_2x2x5.mnc mask/temp.mnc')
+system('mv mask/temp.mnc mask/brain_wm_mask_resamp_epseg_2x2x5.mnc')
+system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_epseg_2x2x5.mnc b1/b1_epseg_da.mnc b1/temp.mnc')
+system('mv b1/temp.mnc b1/b1_epseg_da.mnc')
+
+system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_es_2x2x5.mnc b1/b1_clt_afi.mnc b1/temp.mnc')
+system('mv b1/temp.mnc b1/b1_clt_afi.mnc')
+
+system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_ll_2x2x5.mnc b1/b1_clt_gre_bs_cr_fermi.mnc b1/temp.mnc')
+system('mv b1/temp.mnc b1/b1_clt_gre_bs_cr_fermi.mnc')
+
+
+%% Return to old dir
+%
+
+cd(olddir)
+
+end

@@ -203,23 +203,9 @@ t1Means = t1Means'
 
 t1STDs = t1STDs'
 
-%% Make B1 maps and stats
+
+%%
 %
-
-system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_ll_2x2x5.mnc b1/b1_clt_tse.mnc b1/temp.mnc')
-system('mv b1/temp.mnc b1/b1_clt_tse.mnc')
-
-
-system('mincresample -nearest_neighbour -like b1/b1_epseg_da.mnc mask/brain_wm_mask_resamp_epseg_2x2x5.mnc mask/temp.mnc')
-system('mv mask/temp.mnc mask/brain_wm_mask_resamp_epseg_2x2x5.mnc')
-system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_epseg_2x2x5.mnc b1/b1_epseg_da.mnc b1/temp.mnc')
-system('mv b1/temp.mnc b1/b1_epseg_da.mnc')
-
-system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_es_2x2x5.mnc b1/b1_clt_afi.mnc b1/temp.mnc')
-system('mv b1/temp.mnc b1/b1_clt_afi.mnc')
-
-system('minccalc -expression ''abs(A[0]-1)<0.001?A[1]:0'' mask/brain_wm_mask_resamp_ll_2x2x5.mnc b1/b1_clt_gre_bs_cr_fermi.mnc b1/temp.mnc')
-system('mv b1/temp.mnc b1/b1_clt_gre_bs_cr_fermi.mnc')
 
 [~,b1{1}] = niak_read_minc('b1/b1_clt_tse.mnc');
 [~,b1{2}] = niak_read_minc('b1/b1_epseg_da.mnc');
