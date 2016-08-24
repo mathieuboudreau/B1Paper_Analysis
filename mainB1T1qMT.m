@@ -137,10 +137,9 @@ fitDataVFA_es (subjectID, clt_vfa_spoilID, 'b1_clt_gre_bs_cr_fermi.mnc', 't1_clt
 % IR
 
 getDataMag_niak_mb(subjectID,clt_tse_irID)
-mainScan_mb
+mainScan_mjb
 
 load T1FitRD-NLS-PR_data.mat
-study_info
 IR_hdr=niak_read_hdr_minc([subjectID '_' num2str(clt_tse_irID(1)) '_mri.mnc']);
 IR_hdr.file_name='t1_clt_tse_ir.mnc';
 niak_write_minc_ss(IR_hdr,imrotate(squeeze(ll_T1(:,:,:,1)),90)./1000);
@@ -257,6 +256,6 @@ system('mv b1/temp.mnc b1/b1_clt_gre_bs_cr_fermi.mnc')
 %% Return to old dir
 %
 
-cd(dataDir)
+cd(olddir)
 
 end

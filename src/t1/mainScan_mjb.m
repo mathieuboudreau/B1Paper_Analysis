@@ -6,8 +6,6 @@
 % written by J. Barral, M. Etezadi-Amoli, E. Gudmundson, and N. Stikov, 2009
 %  (c) Board of Trustees, Leland Stanford Junior University
 
-clear all
-close all
 
 T1path = '';
 
