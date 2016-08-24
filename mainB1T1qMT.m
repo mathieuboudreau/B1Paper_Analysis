@@ -1,4 +1,4 @@
-function [] = mainB1T1qMT(dataDir,studyFile)
+function [] = mainB1T1qMT(dataDir,studyFile, quietFlag)
 %mainB1T1qMT Full processing for B1T1 processing
 %   --Arguments--
 %   string dataDir: 
@@ -6,6 +6,8 @@ function [] = mainB1T1qMT(dataDir,studyFile)
 %   string studyFile: string to location of study_info.m file. Since the
 %   working directory is dataDir, if the file is located here, 'study_info'
 %   will be sufficient. Otherwise, the full path is recommended
+%
+%   bool quietFlag: 0 for verbose, 1 for quiet
 
 %% B1T1qMT Comparison
 %

@@ -30,8 +30,15 @@ savepath = [T1path '']
 loadStr = [loadpath filename]
 saveStr = [savepath 'T1Fit' method '_' filename]
 
-%% Perform fit
-T1ScanExperiment(loadStr, saveStr, method);
+if quietFlag == 0
+    %% Perform fit
+    T1ScanExperiment(loadStr, saveStr, method);
 
-%% Display results
-T1FitDisplayScan(loadStr, saveStr);
+    %% Display results
+    T1FitDisplayScan(loadStr, saveStr);
+else
+    
+    %% Perform fit
+    T1ScanExperiment_quiet(loadStr, saveStr, method);
+
+end
