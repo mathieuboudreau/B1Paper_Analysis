@@ -1,0 +1,42 @@
+# Mac files
+.DS_Store
+
+# Python files
+__pycache__/
+
+# Image Files
+*.nii
+*.jpg
+
+# Processing-specific files
+AFI*.mnc
+DA*.mnc
+VFA*.mnc
+*reg.mnc
+*es.mnc
+*resamp.mnc
+b0*.mnc
+brain*.mnc
+*mri_*.mnc
+*mri_1.mnc
+*mri_2.mnc
+b1*.mnc
+t1*.mnc
+*.imp
+alonso_eva_20131025_141318_46_mri.mnc
+tranform.xfm
+
+# Temp files
+*~
+
+# Processed files
+*.mat
+b0/
+b1/
+b1_whole_brain/
+mask/
+qmtopt_workingfolder/
+qmtuk_workingfolder/
+struct/
+t1/
+t1_whole_brain/
