@@ -10,7 +10,7 @@ subjectID{4}='stikov_nikola_20131017_113942';
 subjectID{5}='collette_marc_20131024_093735';
 subjectID{6}='alonso_eva_20131025_141318';
 
-
+namesB1 = {'Double Angle','Bloch-Siegert','AFI','EPI Double Angle',};
 
 reshapedT1AllMethods=[];
 reshapedT1AllSubjects=[];
@@ -28,7 +28,7 @@ for counterSubject = 1:length(subjectID)
     [~,mask] = niak_read_minc([subjectID{counterSubject} '/mask/mask.mnc']);
 end
 for ii=1:5
-    t1_scatter{ii}=[t1{1,ii}(:);t1{2,ii}(:);t1{3,ii}(:);t1{4,ii}(:);t1{6,ii}(:);t1{6,ii}(:)];
+    t1_scatter{ii}=[t1{1,ii}(:);t1{2,ii}(:);t1{3,ii}(:);t1{4,ii}(:);t1{5,ii}(:);t1{6,ii}(:)];
 end
 
 allzeros=(t1_scatter{1}==0)&(t1_scatter{2}==0)&(t1_scatter{3}==0)&(t1_scatter{4}==0)&(t1_scatter{5}==0);
