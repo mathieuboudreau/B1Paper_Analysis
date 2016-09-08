@@ -1,4 +1,4 @@
-function [] = plotB1T1cat()
+function [] = imageB1T1cat()
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
