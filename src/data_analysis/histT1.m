@@ -76,7 +76,7 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
     end
 
     % Calculate histogram data
-    colours = 'bkgrb';
+    colours = lines;
     set(0, 'DefaultAxesBox', 'on', 'DefaultAxesLineWidth', 1.5);
     set(0, 'DefaultAxesFontSize', 16, 'DefaultAxesFontWeight', 'bold');
 
@@ -84,7 +84,7 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
 
     for ii=1:length(t1)
         [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
-        plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), ['-' colours(ii)], 'LineWidth',4)
+        plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
         hold on
     end
 
