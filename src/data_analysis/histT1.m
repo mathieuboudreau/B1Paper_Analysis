@@ -81,8 +81,6 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
     set(0, 'DefaultAxesBox', 'on', 'DefaultAxesLineWidth', 1.5);
     set(0, 'DefaultAxesFontSize', 16, 'DefaultAxesFontWeight', 'bold');
 
-    figure()
-
     for ii=1:length(t1)
         % Calculate histogram data
         [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
