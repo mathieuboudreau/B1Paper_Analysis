@@ -14,8 +14,8 @@ classdef (TestTags = {'Unit'}) dirs2cells_Test < matlab.unittest.TestCase
             cellsOfDirs = dirs2cells('.');
             
             for ii = 1:length(cellsOfDirs)
-                assertFalse( strcmp(testCase, cellsOfDirs{ii},'.'  ) );
-                assertFalse( strcmp(testCase, cellsOfDirs{ii},'..' ) );
+                assertFalse(testCase, strcmp(cellsOfDirs{ii},'.'  ) );
+                assertFalse(testCase, strcmp(cellsOfDirs{ii},'..' ) );
             end
         end
     end
