@@ -25,7 +25,9 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
     %
     reshapedT1AllMethods=[];
     reshapedT1AllSubjects=[];
-    reshapedB1All=[];
+
+    %%
+    %
     for counterSubject = 1:length(subjectID)
         %% Get images data for this subject
         %
@@ -41,9 +43,6 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
         for ii = 1:length(t1ID)
             [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
         end
-
-        [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' maskFileLocation]);
-
 
         % Pre-allocate cells
         reshapedT1 = cell(1,length(t1));
@@ -62,20 +61,22 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
 
     end
 
-
+    %%
+    %
     for ii=1:length(t1)
 
         for jj=1:length(subjectID)
             if jj==1
                   reshapedT1AllMethods{ii}= reshapedT1AllSubjects{jj,ii};
-
             else
                   reshapedT1AllMethods{ii} =  [reshapedT1AllMethods{ii};reshapedT1AllSubjects{jj,ii}];
             end
         end
     end
 
-    % Calculate histogram data
+    %%
+    %
+
     colours = lines;
     set(0, 'DefaultAxesBox', 'on', 'DefaultAxesLineWidth', 1.5);
     set(0, 'DefaultAxesFontSize', 16, 'DefaultAxesFontWeight', 'bold');
@@ -83,6 +84,7 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
     figure()
 
     for ii=1:length(t1)
+        % Calculate histogram data
         [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
         plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
         hold on
@@ -94,9 +96,8 @@ function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
     h_ylabel=ylabel('a.u.');
     set(h_ylabel,'FontWeight', 'bold' , 'FontSize',18, 'FontName', 'Arial');
 
-
     h_legend=legend('Reference DA','Bloch-Siegert','AFI','EPI Double Angle');
     set(h_legend,'FontWeight', 'bold' , 'FontSize',16, 'FontName', 'Arial');
 
-end
+    end
 
