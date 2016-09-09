@@ -22,14 +22,12 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 
     for counterSubject = 1:length(subjectID)
         % Pre-define variable types
-        tmp_hdr = cell(0);
         t1      = cell(0);
         b1      = cell(0);
 
         for ii = 1:length(t1ID)
-            [tmp_hdr{ii},t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
+            [~,t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
         end
-        t1_hdr = tmp_hdr{1}; % legacy definition
 
         for ii = 1:length(t1ID)
             [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
@@ -38,9 +36,6 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
         [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
 
         %%
-
-        bottomB1 = 0.7;
-        topB1 = 1.2;
         for ii = 1 : length(b1)
                 b1{ii}(mask(:,:,1,1)==0)=0;
                 if ii==1
@@ -60,13 +55,25 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 
         end
 
-        xFOV = (1:t1_hdr.info.dimensions(2))*t1_hdr.info.voxel_size(2)*2;
-        yFOV = (1:t1_hdr.info.dimensions(1))*t1_hdr.info.voxel_size(1)*4;
-        figure()
-        imagesc(yFOV,xFOV,cat(1,b1Row,t1Row))
-        axis image
+        bottomB1 = 0.7;
+        topB1 = 1.2;
+
+        figure(100*(counterSubject) + 1)
+        imagesc(b1Row)
         caxis('manual')
         caxis([bottomB1 topB1]);
+        axis image
+        set(gca,'XTick',[])
+        set(gca,'YTick',[])
+        set(gca,'position',[0 0 1 1],'units','normalized')
+ 
+
+        bottomT1 = 0.5;
+        topT1 = 1.5;
+        figure(100*(counterSubject) + 2)
+        imagesc(t1Row)
+        caxis('manual')
+        caxis([bottomT1 topT1]);
         axis image
         set(gca,'XTick',[])
         set(gca,'YTick',[])
