@@ -40,29 +40,15 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 
         t1Row = concatImages(t1, squeeze(mask(:,:,1,1)), -90);
 
-        bottomB1 = 0.7;
-        topB1 = 1.2;
-
+        caxisRangeB1 = [0.7 1.2];
         figure(100*(counterSubject) + 1)
         imagesc(b1Row)
-        caxis('manual')
-        caxis([bottomB1 topB1]);
-        axis image
-        set(gca,'XTick',[])
-        set(gca,'YTick',[])
-        set(gca,'position',[0 0 1 1],'units','normalized')
-        colormap(jet)
+        imagecatFigureProperties(caxisRangeB1, jet)
 
-        bottomT1 = 0.5;
-        topT1 = 1.5;
+        caxisRangeT1 = [0.5 1.5];
         figure(100*(counterSubject) + 2)
         imagesc(t1Row)
-        caxis('manual')
-        caxis([bottomT1 topT1]);
-        axis image
-        set(gca,'XTick',[])
-        set(gca,'YTick',[])
-        set(gca,'position',[0 0 1 1],'units','normalized')
+        imagecatFigureProperties(caxisRangeT1, parula)
     end
 
 
