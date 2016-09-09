@@ -36,24 +36,9 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
         [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
 
         %%
-        for ii = 1 : length(b1)
-                b1{ii}(mask(:,:,1,1)==0)=0;
-                if ii==1
-                    b1Row=imrotate(b1{ii},-90);
-                else
-                    b1Row=cat(2,b1Row,imrotate(b1{ii},-90));
-                end
-        end
+        b1Row = concatImages(b1, squeeze(mask(:,:,1,1)), -90);
 
-        for ii = 1:length(t1)
-            t1{ii}(~mask(:,:,1,1))=0;
-            if ii==1
-                t1Row=imrotate(t1{ii},-90);
-            else
-                t1Row=cat(2,t1Row,imrotate(t1{ii},-90));
-            end
-
-        end
+        t1Row = concatImages(t1, squeeze(mask(:,:,1,1)), -90);
 
         bottomB1 = 0.7;
         topB1 = 1.2;
@@ -82,4 +67,3 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 
 
 end
-
