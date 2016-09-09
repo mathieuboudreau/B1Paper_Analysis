@@ -1,5 +1,7 @@
-function [] = imageB1T1cat(dataDir, b1t1FileOptions)
+function [] = imageB1T1cat(dataDir, b1t1FileOptions, maskFileLocation, caxisB1T1)
 %imageB1T1cat ImageShow concatenated B1 & T1 maps
+%
+% Example usage: imageB1T1cat('data',  {'b1_whole_brain/', 't1/', {'clt_da', 'bs', 'afi', 'epi', 'nominal'}, 'vfa_spoil'}, 'mask/mask.mnc', {[0.7 1.3],[0.5 1.5]})
 %
 % --args--
 % dataDir: String forentire path to directory containing the folders of
@@ -10,7 +12,14 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 %          arguments for the generateStructB1T1Data function. See function
 %          for format of each cells.
 %          Example usage: b1t1FileOptions = {'b1_whole_brain/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
-
+%
+% maskFileLocation: char to location of mask file. Expects that parent
+%                   directory is [dataDir '/' subjectID{counterSubject} '/']
+%                   Example usage: maskFileLocation = 'mask/mask.mnc'
+%
+% caxisB1T1: cell of size two containing [min max] for caxis range of
+%            b1 (caxisB1T1{1}) and t1 (caxisB1T1{2})
+%            Example usage: caxisB1T1 = {[0.7 1.3],[0.5 1.5]}
     %% Setup file information
     %
 
@@ -39,7 +48,7 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
             [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
         end
 
-        [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
+        [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' maskFileLocation]);
 
         %% Concat image sets
         %
@@ -51,12 +60,12 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
         %% Plot images
         %
 
-        caxisRangeB1 = [0.7 1.2];
+        caxisRangeB1 = caxisB1T1{1};
         figure(100*(counterSubject) + 1)
         imagesc(b1Row)
         imagecatFigureProperties(caxisRangeB1, jet)
 
-        caxisRangeT1 = [0.5 1.5];
+        caxisRangeT1 = caxisB1T1{2};
         figure(100*(counterSubject) + 2)
         imagesc(t1Row)
         imagecatFigureProperties(caxisRangeT1, parula)
