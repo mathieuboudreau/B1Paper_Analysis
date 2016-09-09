@@ -11,7 +11,7 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 %          for format of each cells.
 %          Example usage: b1t1FileOptions = {'b1_whole_brain/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
 
-    %%
+    %% Setup file information
     %
 
     subjectID = dirs2cells(dataDir);
@@ -20,8 +20,14 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
     b1ID = s.b1Files;
     t1ID = s.t1Files;
 
+    %% Loop each subject
+    %
+
     for counterSubject = 1:length(subjectID)
-        % Pre-define variable types
+        %% Get images data for this subject
+        %
+
+        % Pre-define variable typs
         t1      = cell(0);
         b1      = cell(0);
 
@@ -35,10 +41,15 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 
         [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
 
-        %%
+        %% Concat image sets
+        %
+
         b1Row = concatImages(b1, squeeze(mask(:,:,1,1)), -90);
 
         t1Row = concatImages(t1, squeeze(mask(:,:,1,1)), -90);
+
+        %% Plot images
+        %
 
         caxisRangeB1 = [0.7 1.2];
         figure(100*(counterSubject) + 1)
