@@ -1,4 +1,4 @@
-function [] = histT1(dataDir)
+function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 %
@@ -6,11 +6,20 @@ function [] = histT1(dataDir)
 % dataDir: String forentire path to directory containing the folders of
 %          each subjects data.
 %          Example usage: dataDir = [pwd '/data'];
-
+%
+% b1t1FileOptions: Cell containing the required information to use as
+%          arguments for the generateStructB1T1Data function. See function
+%          for format of each cells.
+%          Example usage: b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
+%
     %% Setup file information
     %
 
     subjectID = dirs2cells(dataDir);
+
+    s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptions{3}, b1t1FileOptions{4});
+    b1ID = s.b1Files;
+    t1ID = s.t1Files;
 
     %%
     %
@@ -18,20 +27,22 @@ function [] = histT1(dataDir)
     reshapedT1AllSubjects=[];
     reshapedB1All=[];
     for counterSubject = 1:length(subjectID)
-        [t1_hdr,t1{1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_tse_ir.mnc']);
-        [~,t1{2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_tse.mnc']);
-        [~,t1{3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_bs.mnc']);    
-        [~,t1{4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_afi.mnc']);
-        [~,t1{5}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_epseg_da.mnc']);
+        %% Get images data for this subject
+        %
 
+        % Pre-define variable typs
+        t1      = cell(0);
+        b1      = cell(0);
 
+        for ii = 1:length(t1ID)
+            [~,t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
+        end
 
-        [~,b1{1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_tse.mnc']);
-        [~,b1{2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_gre_bs_cr_fermi.mnc']);    
-        [~,b1{3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_afi.mnc']);    
-        [~,b1{4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_epseg_da.mnc']);
+        for ii = 1:length(t1ID)
+            [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
+        end
 
-        [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
+        [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' maskFileLocation]);
 
 
         % Pre-allocate cells
@@ -71,7 +82,7 @@ function [] = histT1(dataDir)
 
     figure()
 
-    for ii=2:length(t1)
+    for ii=1:length(t1)
         [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
         plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), ['-' colours(ii)], 'LineWidth',4)
         hold on
