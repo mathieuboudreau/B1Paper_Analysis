@@ -1,4 +1,4 @@
-function [] = histT1(dataDir, b1t1FileOptions, maskFileLocation)
+function [] = histT1(dataDir, b1t1FileOptions)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 %
