@@ -1,28 +1,39 @@
-function [] = imageB1T1cat(dataDir)
+function [] = imageB1T1cat(dataDir, b1t1FileOptions)
 %imageB1T1cat ImageShow concatenated B1 & T1 maps
 %
 % --args--
 % dataDir: String forentire path to directory containing the folders of
 %          each subjects data.
 %          Example usage: dataDir = [pwd '/data'];
+%
+% b1t1FileOptions: Cell containing the required information to use as
+%          arguments for the generateStructB1T1Data function. See function
+%          for format of each cells.
+%          Example usage: b1t1FileOptions = {'b1_whole_brain/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
 
 %%
 %
 
 subjectID = dirs2cells(dataDir);
+s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptions{3}, b1t1FileOptions{4});
+
+b1ID = s.b1Files;
+t1ID = s.t1Files;
 
 for counterSubject = 1:length(subjectID)
-    [t1_hdr,t1{1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_tse.mnc']);
-    [~,t1{2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_bs.mnc']);
-    [~,t1{3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_afi.mnc']);
-    [~,t1{4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_epseg_da.mnc']);
+    % Pre-define variable types
+    tmp_hdr = cell(0);
+    t1      = cell(0);
+    b1      = cell(0);
 
+    for ii = 1:length(t1ID)
+        [tmp_hdr{ii},t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
+    end
+    t1_hdr = tmp_hdr{1}; % legacy definition
 
-
-    [~,b1{1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1_whole_brain/b1_clt_tse.mnc']);
-    [~,b1{2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1_whole_brain/b1_clt_gre_bs_cr_fermi.mnc']);
-    [~,b1{3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1_whole_brain/b1_clt_afi.mnc']);
-    [~,b1{4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1_whole_brain/b1_epseg_da.mnc']);
+    for ii = 1:length(t1ID)
+        [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
+    end
 
     [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
 
