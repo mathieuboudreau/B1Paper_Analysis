@@ -66,7 +66,7 @@ function [] = imageB1T1cat(dataDir, b1t1FileOptions)
         set(gca,'XTick',[])
         set(gca,'YTick',[])
         set(gca,'position',[0 0 1 1],'units','normalized')
- 
+        colormap(jet)
 
         bottomT1 = 0.5;
         topT1 = 1.5;
