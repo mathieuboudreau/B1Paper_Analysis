@@ -9,7 +9,7 @@ classdef (TestTags = {'Unit'}) generateStructB1T1Data_Test < matlab.unittest.Tes
             testCase.knownCase.b1Folder = 'b1/';
             testCase.knownCase.t1Folder = 't1/';
             testCase.knownCase.b1Files  = {'b1/b1_clt_tse.mnc','b1/b1_epseg_da.mnc','b1/b1_clt_afi.mnc','b1/b1_clt_gre_bs_cr_fermi.mnc','b1/b1_nominal.mnc'};
-            testCase.knownCase.t1Files  = {'t1/t1_gre_vfa_b1_clt_tse.mnc','t1/t1_gre_vfa_b1_epseg_da.mnc','t1/t1_gre_vfa_b1_clt_afi.mnc','t1/t1_gre_vfa_b1_clt_gre_bs_cr_fermi.mnc','t1/t1_gre_vfa_b1_nominal.mnc'};
+            testCase.knownCase.t1Files  = {'t1/t1_gre_vfa_b1_clt_tse.mnc','t1/t1_gre_vfa_b1_epseg_da.mnc','t1/t1_gre_vfa_b1_clt_afi.mnc','t1/t1_gre_vfa_b1_clt_bs.mnc','t1/t1_gre_vfa_b1_nominal.mnc'};
         end
 
     end

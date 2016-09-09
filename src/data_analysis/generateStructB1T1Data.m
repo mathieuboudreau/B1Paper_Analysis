@@ -46,7 +46,11 @@ function s = generateStructB1T1Data(b1Folder, t1Folder, b1Keys, t1Key)
         % prefix
         s.b1Files{ii} = [b1FilePrefix, getSuffix(b1Flag,b1Keys{ii}), fileExtention];
 
-        s.t1Files{ii} = [s.t1Folder, t1FilePrefix, getSuffix(t1Flag,t1Key), '_', s.b1Files{ii}];
+        if strcmp(b1Keys{ii},'bs') % Legacy redefinition of t1 files for bs case
+            s.t1Files{ii} = [s.t1Folder, t1FilePrefix, getSuffix(t1Flag,t1Key), '_', b1FilePrefix, 'clt_bs', fileExtention];
+        else
+            s.t1Files{ii} = [s.t1Folder, t1FilePrefix, getSuffix(t1Flag,t1Key), '_', s.b1Files{ii}];
+        end
 
         % Append folder prefix
         s.b1Files{ii} = [s.b1Folder, s.b1Files{ii}];
