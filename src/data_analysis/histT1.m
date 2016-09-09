@@ -18,6 +18,7 @@ function [] = histT1(dataDir, b1t1FileOptions)
     subjectID = dirs2cells(dataDir);
 
     s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptions{3}, b1t1FileOptions{4});
+    b1Keys = b1t1FileOptions{3};
     b1ID = s.b1Files;
     t1ID = s.t1Files;
 
@@ -94,7 +95,10 @@ function [] = histT1(dataDir, b1t1FileOptions)
     h_ylabel=ylabel('a.u.');
     set(h_ylabel,'FontWeight', 'bold' , 'FontSize',18, 'FontName', 'Arial');
 
-    h_legend=legend('Reference DA','Bloch-Siegert','AFI','EPI Double Angle');
+    % Remove underscores from b1 keys, and make the cell array the b1 legend
+    b1Legend = escapeUnderscores(b1Keys);
+    h_legend=legend(b1Legend);
+
     set(h_legend,'FontWeight', 'bold' , 'FontSize',16, 'FontName', 'Arial');
 
     end
