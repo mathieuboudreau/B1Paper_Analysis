@@ -58,9 +58,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         for ii=1:length(t1)
                 reshapedT1{ii} = t1{ii}(:);
-                reshapedT1{ii}(reshapedT1{ii}==0)=[];
-                reshapedT1{ii}(reshapedT1{ii}>1.5)=[];
-                reshapedT1{ii}(reshapedT1{ii}<0.5)=[];
+                reshapedT1{ii} = removeOutliersAndZeros(reshapedT1{ii}, [0.5 1.5]);
         end
 
         reshapedT1AllSubjects=[reshapedT1AllSubjects;reshapedT1];
@@ -75,9 +73,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         for ii=1:length(b1)
                 reshapedB1{ii} = b1{ii}(:);
-                reshapedB1{ii}(reshapedB1{ii}==0)=[];
-                reshapedB1{ii}(reshapedB1{ii}>1.5)=[];
-                reshapedB1{ii}(reshapedB1{ii}<0.5)=[];
+                reshapedB1{ii} = removeOutliersAndZeros(reshapedB1{ii}, [0.5 1.5]);
         end
 
 
