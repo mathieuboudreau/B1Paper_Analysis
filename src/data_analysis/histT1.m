@@ -27,6 +27,9 @@ function [] = histT1(dataDir, b1t1FileOptions)
     reshapedT1AllMethods=[];
     reshapedT1AllSubjects=[];
 
+    reshapedB1AllMethods=[];
+    reshapedB1AllSubjects=[];
+
     %%
     %
     for counterSubject = 1:length(subjectID)
@@ -45,6 +48,9 @@ function [] = histT1(dataDir, b1t1FileOptions)
             [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
         end
 
+        %% T1
+        %
+
         % Pre-allocate cells
         reshapedT1 = cell(1,length(t1));
         yFreq = cell(1,length(t1));
@@ -60,17 +66,49 @@ function [] = histT1(dataDir, b1t1FileOptions)
 
         reshapedT1AllSubjects=[reshapedT1AllSubjects;reshapedT1];
 
+        %% B1
+        %
+
+        % Pre-allocate cells
+        reshapedB1 = cell(1,length(b1));
+        yFreqB1 = cell(1,length(b1));
+        xB1 = cell(1,length(b1));
+
+        for ii=1:length(b1)
+                reshapedB1{ii} = b1{ii}(:);
+                reshapedB1{ii}(reshapedB1{ii}==0)=[];
+                reshapedB1{ii}(reshapedB1{ii}>1.5)=[];
+                reshapedB1{ii}(reshapedB1{ii}<0.5)=[];
+        end
+
+
+        reshapedB1AllSubjects=[reshapedB1AllSubjects;reshapedB1];
+
     end
 
-    %%
+    %% T1
     %
     for ii=1:length(t1)
 
         for jj=1:length(subjectID)
             if jj==1
-                  reshapedT1AllMethods{ii}= reshapedT1AllSubjects{jj,ii};
+                  reshapedT1AllMethods{ii} = reshapedT1AllSubjects{jj,ii};
             else
                   reshapedT1AllMethods{ii} =  [reshapedT1AllMethods{ii};reshapedT1AllSubjects{jj,ii}];
+            end
+        end
+    end
+
+    %% B1
+    %
+
+    for ii=1:length(b1)
+
+        for jj=1:length(subjectID)
+            if jj==1
+                  reshapedB1AllMethods{ii} = reshapedB1AllSubjects{jj,ii};
+            else
+                  reshapedB1AllMethods{ii} =  [reshapedB1AllMethods{ii};reshapedB1AllSubjects{jj,ii}];
             end
         end
     end
@@ -78,10 +116,13 @@ function [] = histT1(dataDir, b1t1FileOptions)
     %% Calculate histogram data
     %
     for ii=1:length(t1)
-        [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
+        [yFreq{ii}  ,xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
     end
 
-    %% Plot figure
+    for ii=1:length(b1)
+        [yFreqB1{ii},xB1{ii}]=hist(reshapedB1AllMethods{ii},40);
+    end
+    %% Plot figure T1
     %
 
     colours = lines;
@@ -95,6 +136,25 @@ function [] = histT1(dataDir, b1t1FileOptions)
     end
 
     h.xlabel=xlabel('T_1 (s)');
+    h.ylabel=ylabel('a.u.');
+
+    % Remove underscores from b1 keys, and make the cell array the b1 legend
+    b1Legend = escapeUnderscores(b1Keys);
+    h.legend=legend(b1Legend);
+
+    plotFigureProperties(h);
+
+    %% Plot figure B1
+    %
+
+    h.figure = figure();
+    h.axes   = gca;
+    for ii=1:length(t1)
+        plot(xB1{ii},yFreqB1{ii}./sum(yFreqB1{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
+        hold on
+    end
+
+    h.xlabel=xlabel('B_1 (n.u.)');
     h.ylabel=ylabel('a.u.');
 
     % Remove underscores from b1 keys, and make the cell array the b1 legend
