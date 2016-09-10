@@ -44,7 +44,21 @@ The script is `convert_dir_minc1_to_minc2.py` and can be called with `python con
 
 ## Tests
 
-This section was temporarily left empty.
+Prior to running tests, execute the startup script. Then change the directory of the MATLAB session to 'test/'.
+
+You can run a test suite with the following command: `runTestSuite('Tag')`, where 'Tag' is one of the defined tags in the
+tests located in the test/ subfolders.
+
+List of tags:
+
+* `'Unit'`
+
+Example usage: `runTestSuite('Unit')`
+
+The subfolders in test/ have the same tree structure as its the source file directories, and the filenames are the same with
+_Test appended to the name. Test code coverage is still a work in progress.
+
+All tests should pass successfully.
 
 ## Usage
 
