@@ -88,12 +88,13 @@ function [] = histT1(dataDir, b1t1FileOptions)
     close(gcf) % lines creates an empty figure, so closing it here
 
     h.figure = figure();
+    h.axes   = gca;
     for ii=1:length(t1)
         plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
         hold on
     end
 
-    h.xlabel=xlabel('T1 (s)');
+    h.xlabel=xlabel('T_1 (s)');
     h.ylabel=ylabel('a.u.');
 
     % Remove underscores from b1 keys, and make the cell array the b1 legend

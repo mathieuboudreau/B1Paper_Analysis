@@ -12,22 +12,29 @@ function plotFigureProperties(structHandler)
     %% Define default properties
     %
 
-    axesLineWidth    = 1.5;
-    axesFontSize     = 16;
+    axesLineWidth    = 3;
+    axesFontSize     = 20;
 
-    labelFontWeight  = 18;
-    legendFontWeight = 16;
+    labelFontWeight  = 34;
+    legendFontWeight = 26;
 
-    fontName         = 'Arial';
+    fontName         = 'Times New Roman';
 
     %% Set properties
     %
 
-    set(structHandler.figure, 'DefaultAxesBox', 'on', 'DefaultAxesLineWidth', axesLineWidth);
-    set(structHandler.figure, 'DefaultAxesFontSize', axesFontSize, 'DefaultAxesFontWeight', 'bold');
+    axis square
+    set(structHandler.figure,'Position', [100, 100, 600, 600])
+
+    structHandler.axes.Box        = 'on';
+    structHandler.axes.LineWidth  = axesLineWidth;
+    structHandler.axes.FontSize   = axesFontSize;
+    structHandler.axes.FontWeight = 'bold';
+
     set(structHandler.xlabel,'FontWeight', 'bold' , 'FontSize', labelFontWeight , 'FontName', fontName);
     set(structHandler.ylabel,'FontWeight', 'bold' , 'FontSize', labelFontWeight , 'FontName', fontName);
     set(structHandler.legend,'FontWeight', 'bold' , 'FontSize', legendFontWeight, 'FontName', fontName);
 
+    legend boxoff
 end
 
