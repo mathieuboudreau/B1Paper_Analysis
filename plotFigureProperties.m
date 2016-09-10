@@ -1,6 +1,13 @@
 function plotFigureProperties(structHandler)
-%PLOTFIGUREPROPERTIES Summary of this function goes here
-%   Detailed explanation goes here
+%PLOTFIGUREPROPERTIES Set custom figure properties for plots
+%
+%   --arg--
+%   structHandler: a struct with the following attributes:
+%                   .figure: figure handler
+%                   .xlabel: xlabel handler
+%                   .ylabel: ylabel handler
+%                   .legend: ledend handler
+%
 
     %% Define default properties
     %
