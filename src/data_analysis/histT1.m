@@ -75,30 +75,36 @@ function [] = histT1(dataDir, b1t1FileOptions)
         end
     end
 
-    %%
+    %% Calculate histogram data
+    %
+    for ii=1:length(t1)
+        [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
+    end
+
+    %% Plot figure
     %
 
-    colours = lines;
-    set(0, 'DefaultAxesBox', 'on', 'DefaultAxesLineWidth', 1.5);
-    set(0, 'DefaultAxesFontSize', 16, 'DefaultAxesFontWeight', 'bold');
 
+    colours = lines;
+    close(gcf) % lines creates an empty figure, so closing it here
+
+    h_figure = figure();
     for ii=1:length(t1)
-        % Calculate histogram data
-        [yFreq{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
         plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
         hold on
     end
 
     h_xlabel=xlabel('T1 (s)');
-    set(h_xlabel,'FontWeight', 'bold' , 'FontSize',18, 'FontName', 'Arial');
-
     h_ylabel=ylabel('a.u.');
-    set(h_ylabel,'FontWeight', 'bold' , 'FontSize',18, 'FontName', 'Arial');
 
     % Remove underscores from b1 keys, and make the cell array the b1 legend
     b1Legend = escapeUnderscores(b1Keys);
     h_legend=legend(b1Legend);
 
+    set(h_figure, 'DefaultAxesBox', 'on', 'DefaultAxesLineWidth', 1.5);
+    set(h_figure, 'DefaultAxesFontSize', 16, 'DefaultAxesFontWeight', 'bold');
+    set(h_ylabel,'FontWeight', 'bold' , 'FontSize',18, 'FontName', 'Arial');
+    set(h_xlabel,'FontWeight', 'bold' , 'FontSize',18, 'FontName', 'Arial');
     set(h_legend,'FontWeight', 'bold' , 'FontSize',16, 'FontName', 'Arial');
 
     end
