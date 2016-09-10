@@ -149,7 +149,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
     h.figure = figure();
     h.axes   = gca;
-    for ii=1:length(t1)
+    for ii=1:length(b1)
         plot(xB1{ii},yFreqB1{ii}./sum(yFreqB1{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
         hold on
     end
@@ -164,4 +164,3 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     plotFigureProperties(h);
 
     end
-
