@@ -54,17 +54,11 @@ This section was temporarily left empty.
 
 Here's a list of the work I will be doing in the near future:
 
-* Add b1_bic_tse.mnc processing to VFA mapping section.
-
 * Process whole-brain VFA T<sub>1</sub> maps with both EPI and AFI B<sub>1</sub> maps
 
 * Add check for MINC2 file formats, probably in a test but maybe in functions as well.
 
-* Compare stock scanner GRE sequence T<sub>1</sub> with VFA opt spoil T<sub>1</sub>
-
 * Write script for IR instead of the mainB1T1qMT script manipulations
-
-    * Also, maybe remove T1 checks since it pauses the processing, or at least add option to remove it?
 
 ## About me
 
