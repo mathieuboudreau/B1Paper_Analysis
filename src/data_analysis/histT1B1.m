@@ -1,5 +1,5 @@
 function [] = histT1B1(dataDir, b1t1FileOptions)
-%UNTITLED5 Summary of this function goes here
+%HISTT1B1 Summary of this function goes here
 %   Detailed explanation goes here
 %
 % --args--
@@ -62,7 +62,6 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
                 reshapedT1{ii}(reshapedT1{ii}>1.5)=[];
                 reshapedT1{ii}(reshapedT1{ii}<0.5)=[];
         end
-
 
         reshapedT1AllSubjects=[reshapedT1AllSubjects;reshapedT1];
 
@@ -128,39 +127,39 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     colours = lines;
     close(gcf) % lines creates an empty figure, so closing it here
 
-    h.figure = figure();
-    h.axes   = gca;
-    for ii=1:length(t1)
-        plot(xT1{ii},yFreq{ii}./sum(yFreq{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
-        hold on
-    end
-
-    h.xlabel=xlabel('T_1 (s)');
-    h.ylabel=ylabel('a.u.');
-
-    % Remove underscores from b1 keys, and make the cell array the b1 legend
-    b1Legend = escapeUnderscores(b1Keys);
-    h.legend=legend(b1Legend);
-
-    plotFigureProperties(h);
+    plotHistogram(xT1, yFreq  , 'T_1 (s)'   , 'a.u.', b1Keys, colours);
 
     %% Plot figure B1
     %
 
+    plotHistogram(xB1, yFreqB1, 'B_1 (n.u.)', 'a.u.', b1Keys, colours);
+
+end
+
+function plotHistogram(xData, yData, xLabel, yLabel, legendCells, lineColours)
+%PLOTHISTOGRAM Plot histogram data and format figure.
+%
+%   --args--
+%   xData: cells of the frequencies' xaxis values for each line.
+%   yData: cells of the histogram frequencies to be plot for each line.
+%   xLabel: string to be set as xlabel.
+%   yLabel: string to be set as ylabel.
+%   legendCells: cells of strings for the legend of the plot.
+%   lineColours: M-by-3 matrix containing a "ColorOrder" colormap.
+%
     h.figure = figure();
     h.axes   = gca;
-    for ii=1:length(b1)
-        plot(xB1{ii},yFreqB1{ii}./sum(yFreqB1{ii}), '-', 'Color', colours(ii,:), 'LineWidth',4)
+    for ii=1:length(yData)
+        plot(xData{ii},yData{ii}./sum(yData{ii}), '-', 'Color', lineColours(ii,:), 'LineWidth',4)
         hold on
     end
 
-    h.xlabel=xlabel('B_1 (n.u.)');
-    h.ylabel=ylabel('a.u.');
+    h.xlabel=xlabel(xLabel);
+    h.ylabel=ylabel(yLabel);
 
-    % Remove underscores from b1 keys, and make the cell array the b1 legend
-    b1Legend = escapeUnderscores(b1Keys);
-    h.legend=legend(b1Legend);
+    % Remove underscores from legends, and make the cell array the legend
+    legendCells = escapeUnderscores(legendCells);
+    h.legend=legend(legendCells);
 
     plotFigureProperties(h);
-
-    end
+end
