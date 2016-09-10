@@ -81,11 +81,18 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
     end
 
-    %% T1
+    %% Pool subjects (T1 data)
     %
-    for ii=1:length(t1)
 
-        for jj=1:length(subjectID)
+    % B1 method dimension
+    t1ColSize = size(reshapedT1AllSubjects,2);
+
+    % Subjects dimension
+    t1RowSize = size(reshapedT1AllSubjects,1);
+
+    for ii=1:t1ColSize
+
+        for jj=1:t1RowSize
             if jj==1
                   reshapedT1AllMethods{ii} = reshapedT1AllSubjects{jj,ii};
             else
@@ -94,12 +101,18 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         end
     end
 
-    %% B1
+    %% Pool subjects (B1 data)
     %
 
-    for ii=1:length(b1)
+    % B1 method dimension
+    b1ColSize = size(reshapedB1AllSubjects,2);
 
-        for jj=1:length(subjectID)
+    % Subjects dimension
+    b1RowSize = size(reshapedB1AllSubjects,1);
+
+    for ii=1:b1ColSize
+
+        for jj=1:b1RowSize
             if jj==1
                   reshapedB1AllMethods{ii} = reshapedB1AllSubjects{jj,ii};
             else
@@ -117,6 +130,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     for ii=1:length(b1)
         [yFreqB1{ii},xB1{ii}]=hist(reshapedB1AllMethods{ii},40);
     end
+
     %% Plot figure T1
     %
 
