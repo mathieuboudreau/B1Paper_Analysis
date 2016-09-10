@@ -53,7 +53,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         % Pre-allocate cells
         reshapedT1 = cell(1,length(t1));
-        yFreq = cell(1,length(t1));
+        yFreqT1 = cell(1,length(t1));
         xT1 = cell(1,length(t1));
 
         for ii=1:length(t1)
@@ -111,7 +111,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     %% Calculate histogram data
     %
     for ii=1:length(t1)
-        [yFreq{ii}  ,xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
+        [yFreqT1{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
     end
 
     for ii=1:length(b1)
@@ -123,7 +123,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     colours = lines;
     close(gcf) % lines creates an empty figure, so closing it here
 
-    plotHistogram(xT1, yFreq  , 'T_1 (s)'   , 'a.u.', b1Keys, colours);
+    plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'a.u.', b1Keys, colours);
 
     %% Plot figure B1
     %
