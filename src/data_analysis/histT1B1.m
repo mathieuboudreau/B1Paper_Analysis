@@ -1,4 +1,4 @@
-function [] = histT1(dataDir, b1t1FileOptions)
+function [] = histT1B1(dataDir, b1t1FileOptions)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 %
