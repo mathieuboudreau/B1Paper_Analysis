@@ -1,7 +1,7 @@
 function [] = histB1T1(dataDir, b1t1FileOptions, b1t1OutlierMinMax)
 %HISTB1T1 Plots T1 and B1 value histograms of pooled subject data.
 %
-%   Example usage: histT1B1('data', {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}, {[0.5 1.5],[0.5 1.5]})
+%   Example usage: histB1T1('data', {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}, {[0.5 1.5],[0.5 1.5]})
 %
 % --args--
 % dataDir: String for entire path to directory containing the folders of
@@ -35,9 +35,11 @@ function [] = histB1T1(dataDir, b1t1FileOptions, b1t1OutlierMinMax)
     %% Initialize cell arrays
     %
 
+    % allData columns are for each B1 methods, rows are for each subjects.
     allData_t1 = cell(0);
     allData_b1 = cell(0);
 
+    % pooled data columns are for each B1 methods
     pooledSubjectData_t1  = cell(0);
     pooledSubjectData_b1  = cell(0);
     %% Load all data into cell array
