@@ -1,14 +1,11 @@
-function [] = linregressT1()
+function [] = linregressT1(dataDir)
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 
+    %% Setup file information
+    %
 
-subjectID{1}='arseneault_ryan_20131015_140558';
-subjectID{2}='caissie_jessica_20131015_152703';
-subjectID{3}='mazerolle_erin_20131016_152802';
-subjectID{4}='stikov_nikola_20131017_113942';
-subjectID{5}='collette_marc_20131024_093735';
-subjectID{6}='alonso_eva_20131025_141318';
+    subjectID = dirs2cells(dataDir);
 
 namesB1 = {'Double Angle','Bloch-Siegert','AFI','EPI Double Angle',};
 
@@ -16,16 +13,16 @@ reshapedT1AllMethods=[];
 reshapedT1AllSubjects=[];
 reshapedB1All=[];
 for counterSubject = 1:length(subjectID)
-    [t1_hdr,t1{counterSubject,1}] = niak_read_minc([subjectID{counterSubject} '/t1/t1_clt_tse_ir.mnc']);
-    [~,t1{counterSubject,2}] = niak_read_minc([subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_tse.mnc']);
-    [~,t1{counterSubject,3}] = niak_read_minc([subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_bs.mnc']);
-    [~,t1{counterSubject,4}] = niak_read_minc([subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_afi.mnc']);
-    [~,t1{counterSubject,5}] = niak_read_minc([subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_epseg_da.mnc']);
-    [~,b1{counterSubject,1}] = niak_read_minc([subjectID{counterSubject} '/b1/b1_clt_tse.mnc']);
-    [~,b1{counterSubject,2}] = niak_read_minc([subjectID{counterSubject} '/b1/b1_clt_gre_bs_cr_fermi.mnc']);
-    [~,b1{counterSubject,3}] = niak_read_minc([subjectID{counterSubject} '/b1/b1_clt_afi.mnc']);
-    [~,b1{counterSubject,4}] = niak_read_minc([subjectID{counterSubject} '/b1/b1_epseg_da.mnc']);
-    [~,mask] = niak_read_minc([subjectID{counterSubject} '/mask/mask.mnc']);
+    [t1_hdr,t1{counterSubject,1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_tse_ir.mnc']);
+    [~,t1{counterSubject,2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_tse.mnc']);
+    [~,t1{counterSubject,3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_bs.mnc']);
+    [~,t1{counterSubject,4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_afi.mnc']);
+    [~,t1{counterSubject,5}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_epseg_da.mnc']);
+    [~,b1{counterSubject,1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_tse.mnc']);
+    [~,b1{counterSubject,2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_gre_bs_cr_fermi.mnc']);
+    [~,b1{counterSubject,3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_afi.mnc']);
+    [~,b1{counterSubject,4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_epseg_da.mnc']);
+    [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
 end
 for ii=1:5
     t1_scatter{ii}=[t1{1,ii}(:);t1{2,ii}(:);t1{3,ii}(:);t1{4,ii}(:);t1{5,ii}(:);t1{6,ii}(:)];
