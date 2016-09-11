@@ -3,7 +3,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 %   Detailed explanation goes here
 %
 % --args--
-% dataDir: String forentire path to directory containing the folders of
+% dataDir: String for entire path to directory containing the folders of
 %          each subjects data.
 %          Example usage: dataDir = [pwd '/data'];
 %
@@ -24,24 +24,24 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     t1ID = s.t1Files;
 
     numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
+    numSubjects = size(subjectID,1);
 
     %% Initialize cell arrays
     %
 
-    reshapedT1AllMethods  = cell(0);
-    reshapedT1AllSubjects = cell(0);
+    allData_t1 = cell(0);
+    allData_b1 = cell(0);
 
-    reshapedB1AllMethods  = cell(0);
-    reshapedB1AllSubjects = cell(0);
-
+    pooledSubjectData_t1  = cell(0);
+    pooledSubjectData_b1  = cell(0);
     %% Load all data into cell array
     %
 
-    for counterSubject = 1:length(subjectID)
+    for counterSubject = 1:numSubjects
         %% Get images data for this subject
         %
 
-        % Pre-define variable types
+        % Initialize temps for images
         t1      = cell(0);
         b1      = cell(0);
 
@@ -50,10 +50,10 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
             [~,b1{counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
         end
 
-        %% T1
+        %% Store data in table & remove outliers and zeros
         %
 
-        % Pre-allocate cells
+        % Initialize cells
         tmp_t1data_row = cell(1,numB1);
         tmp_b1data_row = cell(1,numB1);
 
@@ -65,19 +65,25 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
             tmp_b1data_row{counterB1} = removeOutliersAndZeros(tmp_b1data_row{counterB1}, [0.5 1.5]);
         end
 
-        reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, tmp_t1data_row);
-        reshapedB1AllSubjects = appendRow(reshapedB1AllSubjects, tmp_b1data_row);
+        allData_t1 = appendRow(allData_t1, tmp_t1data_row);
+        allData_b1 = appendRow(allData_b1, tmp_b1data_row);
+
+        %% Clear variables
+        %
 
         clear tmp_t1data_row
         clear tmp_b1data_row
+
+        clear t1
+        clear b1
     end
 
-    %% Pool subjects (T1 data)
+    %% Pool subject image data
     %
 
     for counterB1=1:numB1
-        reshapedT1AllMethods{counterB1} = cell2mat(reshapedT1AllSubjects(:,counterB1));
-        reshapedB1AllMethods{counterB1} = cell2mat(reshapedB1AllSubjects(:,counterB1));
+        pooledSubjectData_t1{counterB1} = cell2mat(allData_t1(:,counterB1));
+        pooledSubjectData_b1{counterB1} = cell2mat(allData_b1(:,counterB1));
     end
 
     %% Calculate histogram data
@@ -91,8 +97,8 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     xB1     = cell(1,numB1);
 
     for counterB1=1:numB1
-        [yFreqT1{counterB1},xT1{counterB1}]=hist(reshapedT1AllMethods{counterB1},80);
-        [yFreqB1{counterB1},xB1{counterB1}]=hist(reshapedB1AllMethods{counterB1},40);
+        [yFreqT1{counterB1},xT1{counterB1}]=hist(pooledSubjectData_t1{counterB1},80);
+        [yFreqB1{counterB1},xB1{counterB1}]=hist(pooledSubjectData_b1{counterB1},40);
     end
 
     %% Plot histograms
