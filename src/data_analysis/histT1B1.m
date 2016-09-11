@@ -23,7 +23,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     b1ID = s.b1Files;
     t1ID = s.t1Files;
 
-    numB1 = size(b1ID,2);
+    numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
 
     %% Initialize cell arrays
     %
@@ -41,7 +41,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         %% Get images data for this subject
         %
 
-        % Pre-define variable typs
+        % Pre-define variable types
         t1      = cell(0);
         b1      = cell(0);
 
@@ -57,28 +57,30 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         %
 
         % Pre-allocate cells
-        reshapedT1 = cell(1,length(t1));
+        tmp_t1data_row = cell(1,numB1);
 
         for ii=1:numB1
-            reshapedT1{ii} = t1{ii}(:);
-            reshapedT1{ii} = removeOutliersAndZeros(reshapedT1{ii}, [0.5 1.5]);
+            tmp_t1data_row{ii} = t1{ii}(:);
+            tmp_t1data_row{ii} = removeOutliersAndZeros(tmp_t1data_row{ii}, [0.5 1.5]);
         end
 
-        reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, reshapedT1);
+        reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, tmp_t1data_row);
 
+        clear tmp_t1data_row
         %% B1
         %
 
         % Pre-allocate cells
-        reshapedB1 = cell(1,length(b1));
+        tmp_b1data_row = cell(1,numB1);
 
         for ii=1:numB1
-            reshapedB1{ii} = b1{ii}(:);
-            reshapedB1{ii} = removeOutliersAndZeros(reshapedB1{ii}, [0.5 1.5]);
+            tmp_b1data_row{ii} = b1{ii}(:);
+            tmp_b1data_row{ii} = removeOutliersAndZeros(tmp_b1data_row{ii}, [0.5 1.5]);
         end
 
-        reshapedB1AllSubjects = appendRow(reshapedB1AllSubjects, reshapedB1);
+        reshapedB1AllSubjects = appendRow(reshapedB1AllSubjects, tmp_b1data_row);
 
+        clear tmp_b1data_row
     end
 
     %% Pool subjects (T1 data)
