@@ -45,9 +45,9 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         t1      = cell(0);
         b1      = cell(0);
 
-        for ii = 1:numB1
-            [~,t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
-            [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
+        for counterB1 = 1:numB1
+            [~,t1{counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
+            [~,b1{counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
         end
 
         %% T1
@@ -57,12 +57,12 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         tmp_t1data_row = cell(1,numB1);
         tmp_b1data_row = cell(1,numB1);
 
-        for ii=1:numB1
-            tmp_t1data_row{ii} = t1{ii}(:);
-            tmp_t1data_row{ii} = removeOutliersAndZeros(tmp_t1data_row{ii}, [0.5 1.5]);
+        for counterB1=1:numB1
+            tmp_t1data_row{counterB1} = t1{counterB1}(:);
+            tmp_t1data_row{counterB1} = removeOutliersAndZeros(tmp_t1data_row{counterB1}, [0.5 1.5]);
 
-            tmp_b1data_row{ii} = b1{ii}(:);
-            tmp_b1data_row{ii} = removeOutliersAndZeros(tmp_b1data_row{ii}, [0.5 1.5]);
+            tmp_b1data_row{counterB1} = b1{counterB1}(:);
+            tmp_b1data_row{counterB1} = removeOutliersAndZeros(tmp_b1data_row{counterB1}, [0.5 1.5]);
         end
 
         reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, tmp_t1data_row);
@@ -75,9 +75,9 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     %% Pool subjects (T1 data)
     %
 
-    for ii=1:numB1
-        reshapedT1AllMethods{ii} = cell2mat(reshapedT1AllSubjects(:,ii));
-        reshapedB1AllMethods{ii} = cell2mat(reshapedB1AllSubjects(:,ii));
+    for counterB1=1:numB1
+        reshapedT1AllMethods{counterB1} = cell2mat(reshapedT1AllSubjects(:,counterB1));
+        reshapedB1AllMethods{counterB1} = cell2mat(reshapedB1AllSubjects(:,counterB1));
     end
 
     %% Calculate histogram data
@@ -90,12 +90,9 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     xT1     = cell(1,numB1);
     xB1     = cell(1,numB1);
 
-    for ii=1:numB1
-        [yFreqT1{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
-    end
-
-    for ii=1:numB1
-        [yFreqB1{ii},xB1{ii}]=hist(reshapedB1AllMethods{ii},40);
+    for counterB1=1:numB1
+        [yFreqT1{counterB1},xT1{counterB1}]=hist(reshapedT1AllMethods{counterB1},80);
+        [yFreqB1{counterB1},xB1{counterB1}]=hist(reshapedB1AllMethods{counterB1},40);
     end
 
     %% Plot histograms
