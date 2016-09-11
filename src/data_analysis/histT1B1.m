@@ -93,14 +93,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     t1RowSize = size(reshapedT1AllSubjects,1);
 
     for ii=1:t1ColSize
-
-        for jj=1:t1RowSize
-            if jj==1
-                  reshapedT1AllMethods{ii} = reshapedT1AllSubjects{jj,ii};
-            else
-                  reshapedT1AllMethods{ii} =  [reshapedT1AllMethods{ii};reshapedT1AllSubjects{jj,ii}];
-            end
-        end
+        reshapedT1AllMethods{ii} = cell2mat(reshapedT1AllSubjects(:,ii));
     end
 
     %% Pool subjects (B1 data)
@@ -113,14 +106,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     b1RowSize = size(reshapedB1AllSubjects,1);
 
     for ii=1:b1ColSize
-
-        for jj=1:b1RowSize
-            if jj==1
-                  reshapedB1AllMethods{ii} = reshapedB1AllSubjects{jj,ii};
-            else
-                  reshapedB1AllMethods{ii} =  [reshapedB1AllMethods{ii};reshapedB1AllSubjects{jj,ii}];
-            end
-        end
+        reshapedB1AllMethods{ii} = cell2mat(reshapedB1AllSubjects(:,ii));
     end
 
     %% Calculate histogram data
