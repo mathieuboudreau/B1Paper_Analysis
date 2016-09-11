@@ -1,6 +1,7 @@
-function [] = histT1B1(dataDir, b1t1FileOptions)
-%HISTT1B1 Summary of this function goes here
-%   Detailed explanation goes here
+function [] = histT1B1(dataDir, b1t1FileOptions, b1t1OutlierMinMax)
+%HISTT1B1 Plots T1 and B1 value histograms of pooled subject data.
+%
+%   Example usage: histT1B1('data', {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}, {[0.5 1.5],[0.5 1.5]})
 %
 % --args--
 % dataDir: String for entire path to directory containing the folders of
@@ -12,20 +13,25 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 %          for format of each cells.
 %          Example usage: b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
 %
-
+% b1t1OutlierMinMax: 1x2 cell array containing 1x2 double arrays (e.g [min max])
+%                    Element 1 is the [min max] for outlier dumping for T1 data
+%                    Element 2 is the [min max] for outlier dumping for b1 data
+%                    Example usage: b1t1OutlierMinMax = {[0.5 1.5], [0.5 1.5]}
     %% Setup file information
     %
 
     subjectID = dirs2cells(dataDir);
 
     s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptions{3}, b1t1FileOptions{4});
-    b1Keys = b1t1FileOptions{3};
+    b1Keys = b1t1FileOptions{3}; % shorthand names of the b1 methods
     b1ID = s.b1Files;
     t1ID = s.t1Files;
 
     numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
     numSubjects = size(subjectID,1);
 
+    t1OutlierRange = cell2mat(b1t1OutlierMinMax(1));
+    b1OutlierRange = cell2mat(b1t1OutlierMinMax(2));
     %% Initialize cell arrays
     %
 
@@ -59,10 +65,10 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         for counterB1=1:numB1
             tmp_t1data_row{counterB1} = t1{counterB1}(:);
-            tmp_t1data_row{counterB1} = removeOutliersAndZeros(tmp_t1data_row{counterB1}, [0.5 1.5]);
+            tmp_t1data_row{counterB1} = removeOutliersAndZeros(tmp_t1data_row{counterB1}, t1OutlierRange);
 
             tmp_b1data_row{counterB1} = b1{counterB1}(:);
-            tmp_b1data_row{counterB1} = removeOutliersAndZeros(tmp_b1data_row{counterB1}, [0.5 1.5]);
+            tmp_b1data_row{counterB1} = removeOutliersAndZeros(tmp_b1data_row{counterB1}, b1OutlierRange);
         end
 
         allData_t1 = appendRow(allData_t1, tmp_t1data_row);
