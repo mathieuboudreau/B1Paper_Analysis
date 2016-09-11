@@ -23,6 +23,8 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     b1ID = s.b1Files;
     t1ID = s.t1Files;
 
+    numB1 = size(b1ID,2);
+
     %% Initialize cell arrays
     %
 
@@ -43,11 +45,11 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         t1      = cell(0);
         b1      = cell(0);
 
-        for ii = 1:length(t1ID)
+        for ii = 1:numB1
             [~,t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
         end
 
-        for ii = 1:length(t1ID)
+        for ii = 1:numB1
             [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
         end
 
@@ -56,12 +58,10 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         % Pre-allocate cells
         reshapedT1 = cell(1,length(t1));
-        yFreqT1 = cell(1,length(t1));
-        xT1 = cell(1,length(t1));
 
-        for ii=1:length(t1)
-                reshapedT1{ii} = t1{ii}(:);
-                reshapedT1{ii} = removeOutliersAndZeros(reshapedT1{ii}, [0.5 1.5]);
+        for ii=1:numB1
+            reshapedT1{ii} = t1{ii}(:);
+            reshapedT1{ii} = removeOutliersAndZeros(reshapedT1{ii}, [0.5 1.5]);
         end
 
         reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, reshapedT1);
@@ -71,12 +71,10 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         % Pre-allocate cells
         reshapedB1 = cell(1,length(b1));
-        yFreqB1 = cell(1,length(b1));
-        xB1 = cell(1,length(b1));
 
-        for ii=1:length(b1)
-                reshapedB1{ii} = b1{ii}(:);
-                reshapedB1{ii} = removeOutliersAndZeros(reshapedB1{ii}, [0.5 1.5]);
+        for ii=1:numB1
+            reshapedB1{ii} = b1{ii}(:);
+            reshapedB1{ii} = removeOutliersAndZeros(reshapedB1{ii}, [0.5 1.5]);
         end
 
         reshapedB1AllSubjects = appendRow(reshapedB1AllSubjects, reshapedB1);
@@ -86,25 +84,32 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     %% Pool subjects (T1 data)
     %
 
-    for ii=1:size(reshapedT1AllSubjects, 2)
+    for ii=1:numB1
         reshapedT1AllMethods{ii} = cell2mat(reshapedT1AllSubjects(:,ii));
     end
 
     %% Pool subjects (B1 data)
     %
 
-    for ii=1:size(reshapedB1AllSubjects, 2)
+    for ii=1:numB1
         reshapedB1AllMethods{ii} = cell2mat(reshapedB1AllSubjects(:,ii));
     end
 
     %% Calculate histogram data
     %
 
-    for ii=1:length(t1)
+    % Initialize cell arrays
+    yFreqT1 = cell(1,numB1);
+    yFreqB1 = cell(1,numB1);
+
+    xT1     = cell(1,numB1);
+    xB1     = cell(1,numB1);
+
+    for ii=1:numB1
         [yFreqT1{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
     end
 
-    for ii=1:length(b1)
+    for ii=1:numB1
         [yFreqB1{ii},xB1{ii}]=hist(reshapedB1AllMethods{ii},40);
     end
 
