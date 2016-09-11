@@ -61,7 +61,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
                 reshapedT1{ii} = removeOutliersAndZeros(reshapedT1{ii}, [0.5 1.5]);
         end
 
-        reshapedT1AllSubjects=[reshapedT1AllSubjects;reshapedT1];
+        reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, reshapedT1);
 
         %% B1
         %
@@ -76,8 +76,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
                 reshapedB1{ii} = removeOutliersAndZeros(reshapedB1{ii}, [0.5 1.5]);
         end
 
-
-        reshapedB1AllSubjects=[reshapedB1AllSubjects;reshapedB1];
+        reshapedB1AllSubjects = appendRow(reshapedB1AllSubjects, reshapedB1);
 
     end
 
