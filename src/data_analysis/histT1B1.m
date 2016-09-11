@@ -23,14 +23,14 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     b1ID = s.b1Files;
     t1ID = s.t1Files;
 
-    %%
+    %% Initialize cell arrays
     %
 
-    reshapedT1AllMethods=[];
-    reshapedT1AllSubjects=[];
+    reshapedT1AllMethods = cell(0);
+    reshapedT1AllSubjects = cell(0);
 
-    reshapedB1AllMethods=[];
-    reshapedB1AllSubjects=[];
+    reshapedB1AllMethods = cell(0);
+    reshapedB1AllSubjects = cell(0);
 
     %%
     %
@@ -86,26 +86,14 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     %% Pool subjects (T1 data)
     %
 
-    % B1 method dimension
-    t1ColSize = size(reshapedT1AllSubjects,2);
-
-    % Subjects dimension
-    t1RowSize = size(reshapedT1AllSubjects,1);
-
-    for ii=1:t1ColSize
+    for ii=1:size(reshapedT1AllSubjects, 2)
         reshapedT1AllMethods{ii} = cell2mat(reshapedT1AllSubjects(:,ii));
     end
 
     %% Pool subjects (B1 data)
     %
 
-    % B1 method dimension
-    b1ColSize = size(reshapedB1AllSubjects,2);
-
-    % Subjects dimension
-    b1RowSize = size(reshapedB1AllSubjects,1);
-
-    for ii=1:b1ColSize
+    for ii=1:size(reshapedB1AllSubjects, 2)
         reshapedB1AllMethods{ii} = cell2mat(reshapedB1AllSubjects(:,ii));
     end
 
