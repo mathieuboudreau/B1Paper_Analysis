@@ -19,4 +19,3 @@ function [outputMat] = appendRow(inputMat, newRow)
         outputMat(numRows + 1, :) = newRow;
     end
 end
-

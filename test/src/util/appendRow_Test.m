@@ -53,4 +53,3 @@ classdef (TestTags = {'Unit', 'util'}) appendRow_Test < matlab.unittest.TestCase
     end
 
 end
-

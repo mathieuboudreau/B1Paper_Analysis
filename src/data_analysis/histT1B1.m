@@ -12,6 +12,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 %          for format of each cells.
 %          Example usage: b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
 %
+
     %% Setup file information
     %
 
@@ -24,6 +25,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
     %%
     %
+
     reshapedT1AllMethods=[];
     reshapedT1AllSubjects=[];
 
@@ -32,6 +34,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
     %%
     %
+
     for counterSubject = 1:length(subjectID)
         %% Get images data for this subject
         %
@@ -122,6 +125,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
     %% Calculate histogram data
     %
+
     for ii=1:length(t1)
         [yFreqT1{ii},xT1{ii}]=hist(reshapedT1AllMethods{ii},80);
     end
