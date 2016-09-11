@@ -103,7 +103,7 @@ function [] = histT1B1(dataDir, b1t1FileOptions, b1t1OutlierMinMax)
     xB1     = cell(1,numB1);
 
     for counterB1=1:numB1
-        [yFreqT1{counterB1},xT1{counterB1}]=hist(pooledSubjectData_t1{counterB1},80);
+        [yFreqT1{counterB1},xT1{counterB1}]=hist(pooledSubjectData_t1{counterB1},40);
         [yFreqB1{counterB1},xB1{counterB1}]=hist(pooledSubjectData_b1{counterB1},40);
     end
 

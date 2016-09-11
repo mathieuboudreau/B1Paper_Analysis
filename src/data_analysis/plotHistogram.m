@@ -12,7 +12,7 @@ function plotHistogram(xData, yData, xLabel, yLabel, legendCells, lineColours)
     h.figure = figure();
     h.axes   = gca;
     for ii=1:length(yData)
-        plot(xData{ii},yData{ii}./sum(yData{ii}), '-', 'Color', lineColours(ii,:), 'LineWidth',4)
+        plot(xData{ii},normalizeCurveArea(xData{ii}, yData{ii}), '-', 'Color', lineColours(ii,:), 'LineWidth',4)
         hold on
     end
 
