@@ -28,13 +28,13 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
     %% Initialize cell arrays
     %
 
-    reshapedT1AllMethods = cell(0);
+    reshapedT1AllMethods  = cell(0);
     reshapedT1AllSubjects = cell(0);
 
-    reshapedB1AllMethods = cell(0);
+    reshapedB1AllMethods  = cell(0);
     reshapedB1AllSubjects = cell(0);
 
-    %%
+    %% Load all data into cell array
     %
 
     for counterSubject = 1:length(subjectID)
@@ -47,9 +47,6 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         for ii = 1:numB1
             [~,t1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{ii}]);
-        end
-
-        for ii = 1:numB1
             [~,b1{ii}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{ii}]);
         end
 
@@ -58,28 +55,20 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
         % Pre-allocate cells
         tmp_t1data_row = cell(1,numB1);
+        tmp_b1data_row = cell(1,numB1);
 
         for ii=1:numB1
             tmp_t1data_row{ii} = t1{ii}(:);
             tmp_t1data_row{ii} = removeOutliersAndZeros(tmp_t1data_row{ii}, [0.5 1.5]);
-        end
 
-        reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, tmp_t1data_row);
-
-        clear tmp_t1data_row
-        %% B1
-        %
-
-        % Pre-allocate cells
-        tmp_b1data_row = cell(1,numB1);
-
-        for ii=1:numB1
             tmp_b1data_row{ii} = b1{ii}(:);
             tmp_b1data_row{ii} = removeOutliersAndZeros(tmp_b1data_row{ii}, [0.5 1.5]);
         end
 
+        reshapedT1AllSubjects = appendRow(reshapedT1AllSubjects, tmp_t1data_row);
         reshapedB1AllSubjects = appendRow(reshapedB1AllSubjects, tmp_b1data_row);
 
+        clear tmp_t1data_row
         clear tmp_b1data_row
     end
 
@@ -88,12 +77,6 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
 
     for ii=1:numB1
         reshapedT1AllMethods{ii} = cell2mat(reshapedT1AllSubjects(:,ii));
-    end
-
-    %% Pool subjects (B1 data)
-    %
-
-    for ii=1:numB1
         reshapedB1AllMethods{ii} = cell2mat(reshapedB1AllSubjects(:,ii));
     end
 
@@ -115,17 +98,13 @@ function [] = histT1B1(dataDir, b1t1FileOptions)
         [yFreqB1{ii},xB1{ii}]=hist(reshapedB1AllMethods{ii},40);
     end
 
-    %% Plot figure T1
+    %% Plot histograms
     %
 
     colours = lines;
     close(gcf) % lines creates an empty figure, so closing it here
 
     plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'a.u.', b1Keys, colours);
-
-    %% Plot figure B1
-    %
-
     plotHistogram(xB1, yFreqB1, 'B_1 (n.u.)', 'a.u.', b1Keys, colours);
 
 end
