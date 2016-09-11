@@ -1,4 +1,4 @@
-classdef (TestTags = {'Unit'}) concatImages_Test < matlab.unittest.TestCase
+classdef (TestTags = {'Unit', 'util'}) concatImages_Test < matlab.unittest.TestCase
 
     properties
     end

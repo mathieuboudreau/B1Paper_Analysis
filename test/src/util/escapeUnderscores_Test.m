@@ -1,4 +1,4 @@
-classdef (TestTags = {'Unit'}) escapeUnderscores_Test < matlab.unittest.TestCase
+classdef (TestTags = {'Unit', 'util'}) escapeUnderscores_Test < matlab.unittest.TestCase
 
     properties
     end

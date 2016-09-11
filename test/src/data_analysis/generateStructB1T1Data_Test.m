@@ -1,4 +1,4 @@
-classdef (TestTags = {'Unit'}) generateStructB1T1Data_Test < matlab.unittest.TestCase
+classdef (TestTags = {'Unit', 'data_analysis'}) generateStructB1T1Data_Test < matlab.unittest.TestCase
 
     properties
         knownCase = struct;

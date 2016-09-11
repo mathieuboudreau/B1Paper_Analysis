@@ -1,4 +1,4 @@
-classdef (TestTags = {'Unit'}) dirs2cells_Test < matlab.unittest.TestCase
+classdef (TestTags = {'Unit', 'util'}) dirs2cells_Test < matlab.unittest.TestCase
 
     properties
     end

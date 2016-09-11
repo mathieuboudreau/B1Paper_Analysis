@@ -1,4 +1,4 @@
-classdef (TestTags = {'Unit'}) removeOutliersAndZeros_Test < matlab.unittest.TestCase
+classdef (TestTags = {'Unit', 'util'}) removeOutliersAndZeros_Test < matlab.unittest.TestCase
 
     properties
     end

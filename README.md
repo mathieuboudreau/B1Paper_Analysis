@@ -53,6 +53,14 @@ List of tags:
 
 * `'Unit'`
 
+Each test also has a tag name which is the directory it's located in.
+
+List of directory tags:
+
+* `'data_analysis'`
+
+* `'util'`
+
 Example usage: `runTestSuite('Unit')`
 
 The subfolders in test/ have the same tree structure as its the source file directories, and the filenames are the same with
