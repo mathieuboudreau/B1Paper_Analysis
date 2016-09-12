@@ -30,17 +30,12 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 
     %% Load all data into cell array
     %
-
+    % Initialize temps for images
+    t1      = cell(0);
     for counterSubject = 1:numSubjects
-        % Initialize temps for images
-        t1      = cell(0);
-        b1      = cell(0);
-
         for counterB1 = 1:numB1
             [~,t1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
-            [~,b1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
         end
-
     end
 
     %%
@@ -51,9 +46,11 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     end
 
     allzeros=(t1_scatter{1}==0)&(t1_scatter{2}==0)&(t1_scatter{3}==0)&(t1_scatter{4}==0);
+
     for ii=1:length(t1_scatter)
         reshapedT1_scatter{ii}=t1_scatter{ii};
         reshapedT1_scatter{ii}(allzeros)=[];
+
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}>1.5)=[];
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}<0.5)=[];
     end
