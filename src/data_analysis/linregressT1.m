@@ -58,45 +58,11 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}<0.5)=[];
     end
 
+    %% Scatterplots
+    %
 
-    figure(),scatter(reshapedT1_scatter{1},reshapedT1_scatter{2})
-    axis([0.5 2 0.5 2])
-    xlabel(namesB1{1},'fontweight','bold','fontsize',12)
-    ylabel(namesB1{2},'fontweight','bold','fontsize',12)
-    x=reshapedT1_scatter{1};
-    y=reshapedT1_scatter{2};
-    p= polyfit(x,y,1);
-    f= polyval(p,x);
-    [a,b,c,d,e]=regress(x,y);
-    pearsCoeff=corr(reshapedT1_scatter{1},reshapedT1_scatter{2})
-    annotation('textbox', [.2 .8, .1, .1],'String', [ {['y = ' num2str(p(1)) 'x + ' num2str(p(2))]} ; {['r2 = ' num2str(e(1))]}; {['Pearson Corr. Coeff = ' num2str(pearsCoeff)]}]);
-    title('VFA T1 (s)','fontweight','bold','fontsize',16)
-
-
-    figure(),scatter(reshapedT1_scatter{1},reshapedT1_scatter{3})
-    axis([0.5 2 0.5 2])
-    xlabel(namesB1{1},'fontweight','bold','fontsize',12)
-    ylabel(namesB1{3},'fontweight','bold','fontsize',12)
-    x=reshapedT1_scatter{1};
-    y=reshapedT1_scatter{3};
-    p= polyfit(x,y,1);
-    f= polyval(p,x);
-    [a,b,c,d,e]=regress(x,y);
-    pearsCoeff=corr(reshapedT1_scatter{1},reshapedT1_scatter{3})
-    annotation('textbox', [.2 .8, .1, .1],'String', [ {['y = ' num2str(p(1)) 'x + ' num2str(p(2))]} ; {['r2 = ' num2str(e(1))]}; {['Pearson Corr. Coeff = ' num2str(pearsCoeff)]}]);
-    title('VFA T1 (s)','fontweight','bold','fontsize',16)
-
-    figure(),scatter(reshapedT1_scatter{1},reshapedT1_scatter{4})
-    axis([0.5 2 0.5 2])
-    xlabel(namesB1{1},'fontweight','bold','fontsize',12)
-    ylabel(namesB1{4},'fontweight','bold','fontsize',12)
-    x=reshapedT1_scatter{1};
-    y=reshapedT1_scatter{4};
-    p= polyfit(x,y,1);
-    f= polyval(p,x);
-    [a,b,c,d,e]=regress(x,y);
-    pearsCoeff=corr(reshapedT1_scatter{1},reshapedT1_scatter{4})
-    annotation('textbox', [.2 .8, .1, .1],'String', [ {['y = ' num2str(p(1)) 'x + ' num2str(p(2))]} ; {['r2 = ' num2str(e(1))]}; {['Pearson Corr. Coeff = ' num2str(pearsCoeff)]}]);
-    title('VFA T1 (s)','fontweight','bold','fontsize',16)
+    for counterB1 = 2:numB1
+        plotScatter(reshapedT1_scatter{1}, reshapedT1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA T1 (s)');
+    end
 
 end
