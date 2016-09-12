@@ -1,29 +1,53 @@
-function [] = linregressT1(dataDir)
+function [] = linregressT1(dataDir, b1t1FileOptions)
 %LINREGRESST1 Summary of this function goes here
-%   Detailed explanation goes here
+%
+% Example usage: linregressT1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'})
+%
 % --args--
 % dataDir: String for entire path to directory containing the folders of
 %          each subjects data.
 %          Example usage: dataDir = [pwd '/data'];
+%
+% b1t1FileOptions: Cell containing the required information to use as
+%          arguments for the generateStructB1T1Data function. See function
+%          for format of each cells.
+%          Example usage: b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
 %
     %% Setup file information
     %
 
     subjectID = dirs2cells(dataDir);
 
+    s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptions{3}, b1t1FileOptions{4});
+    b1Keys = b1t1FileOptions{3}; % shorthand names of the b1 methods
+    b1ID = s.b1Files;
+    t1ID = s.t1Files;
+
+    numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
+    numSubjects = size(subjectID,1);
+
     namesB1 = {'Double Angle','Bloch-Siegert','AFI','EPI Double Angle',};
 
-    for counterSubject = 1:length(subjectID)
-        [t1_hdr,t1{counterSubject,1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_tse.mnc']);
-        [~,t1{counterSubject,2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_bs.mnc']);
-        [~,t1{counterSubject,3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_afi.mnc']);
-        [~,t1{counterSubject,4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_epseg_da.mnc']);
-        [~,b1{counterSubject,1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_tse.mnc']);
-        [~,b1{counterSubject,2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_gre_bs_cr_fermi.mnc']);
-        [~,b1{counterSubject,3}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_clt_afi.mnc']);
-        [~,b1{counterSubject,4}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/b1/b1_epseg_da.mnc']);
-        [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/mask/mask.mnc']);
+    %% Load all data into cell array
+    %
+
+    for counterSubject = 1:numSubjects
+        % Initialize temps for images
+        t1      = cell(0);
+        b1      = cell(0);
+
+        for counterB1 = 1:numB1
+            t1ID{counterB1}
+            b1ID{counterB1}
+            [~,t1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
+            [~,b1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
+        end
+
     end
+
+    %%
+    %
+
     for ii=1:4
         t1_scatter{ii}=[t1{1,ii}(:);t1{2,ii}(:);t1{3,ii}(:);t1{4,ii}(:);t1{5,ii}(:);t1{6,ii}(:)];
     end
