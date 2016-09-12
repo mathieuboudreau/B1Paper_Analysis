@@ -26,7 +26,7 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
     numSubjects = size(subjectID,1);
 
-    namesB1 = {'Double Angle','Bloch-Siegert','AFI','EPI Double Angle',};
+    namesB1 = escapeUnderscores(b1Keys);
 
     %% Load all data into cell array
     %
@@ -37,8 +37,6 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
         b1      = cell(0);
 
         for counterB1 = 1:numB1
-            t1ID{counterB1}
-            b1ID{counterB1}
             [~,t1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
             [~,b1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
         end
