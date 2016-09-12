@@ -2,7 +2,10 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 %LINREGRESST1 Summary of this function goes here
 %
 % Example usage: linregressT1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'})
-%
+%                                                           **The first
+%                                                           entry, e.g.
+%                                                           clt_da, will be
+%                                                           the reference
 % --args--
 % dataDir: String for entire path to directory containing the folders of
 %          each subjects data.
