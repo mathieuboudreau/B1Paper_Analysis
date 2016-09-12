@@ -31,15 +31,23 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 
     namesB1 = escapeUnderscores(b1Keys);
 
+    %% Initialize cell arrays
+    %
+
+    % allData columns are for each B1 methods, rows are for each subjects.
+    allData_t1 = cell(0);
+    allData_b1 = cell(0);
+
+    % pooled data columns are for each B1 methods
+    pooledSubjectData_t1  = cell(0);
+
     %% Load all data into cell array
     %
-    % Initialize temps for images
-    t1      = cell(0);
-    b1      = cell(0);
+
     for counterSubject = 1:numSubjects
         for counterB1 = 1:numB1
-            [~,t1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
-            [~,b1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
+            [~,allData_t1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
+            [~,allData_b1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
         end
     end
 
@@ -47,13 +55,13 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     %
 
     for ii=1:4
-        t1_scatter{ii}=[t1{1,ii}(:);t1{2,ii}(:);t1{3,ii}(:);t1{4,ii}(:);t1{5,ii}(:);t1{6,ii}(:)];
+        pooledSubjectData_t1{ii}=[allData_t1{1,ii}(:);allData_t1{2,ii}(:);allData_t1{3,ii}(:);allData_t1{4,ii}(:);allData_t1{5,ii}(:);allData_t1{6,ii}(:)];
     end
 
-    allzeros=(t1_scatter{1}==0)&(t1_scatter{2}==0)&(t1_scatter{3}==0)&(t1_scatter{4}==0);
+    allzeros=(pooledSubjectData_t1{1}==0)&(pooledSubjectData_t1{2}==0)&(pooledSubjectData_t1{3}==0)&(pooledSubjectData_t1{4}==0);
 
-    for ii=1:length(t1_scatter)
-        reshapedT1_scatter{ii}=t1_scatter{ii};
+    for ii=1:length(pooledSubjectData_t1)
+        reshapedT1_scatter{ii}=pooledSubjectData_t1{ii};
         reshapedT1_scatter{ii}(allzeros)=[];
 
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}>1.5)=[];
