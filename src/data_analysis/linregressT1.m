@@ -54,15 +54,15 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     %%
     %
 
-    for ii=1:4
-        pooledSubjectData_t1{ii}=[allData_t1{1,ii}(:);allData_t1{2,ii}(:);allData_t1{3,ii}(:);allData_t1{4,ii}(:);allData_t1{5,ii}(:);allData_t1{6,ii}(:)];
+    for counterB1 = 1:numB1
+        pooledSubjectData_t1{counterB1}=[allData_t1{1,counterB1}(:);allData_t1{2,counterB1}(:);allData_t1{3,counterB1}(:);allData_t1{4,counterB1}(:);allData_t1{5,counterB1}(:);allData_t1{6,counterB1}(:)];
     end
 
     allzeros=(pooledSubjectData_t1{1}==0)&(pooledSubjectData_t1{2}==0)&(pooledSubjectData_t1{3}==0)&(pooledSubjectData_t1{4}==0);
 
-    for ii=1:length(pooledSubjectData_t1)
-        reshapedT1_scatter{ii}=pooledSubjectData_t1{ii};
-        reshapedT1_scatter{ii}(allzeros)=[];
+    for counterB1 = 1:numB1
+        reshapedT1_scatter{counterB1}=pooledSubjectData_t1{counterB1};
+        reshapedT1_scatter{counterB1}(allzeros)=[];
 
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}>1.5)=[];
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}<0.5)=[];
