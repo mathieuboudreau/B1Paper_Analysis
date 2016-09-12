@@ -32,9 +32,11 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     %
     % Initialize temps for images
     t1      = cell(0);
+    b1      = cell(0);
     for counterSubject = 1:numSubjects
         for counterB1 = 1:numB1
             [~,t1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' t1ID{counterB1}]);
+            [~,b1{counterSubject, counterB1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{counterB1}]);
         end
     end
 
