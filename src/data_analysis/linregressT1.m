@@ -1,7 +1,11 @@
 function [] = linregressT1(dataDir)
-%UNTITLED6 Summary of this function goes here
+%LINREGRESST1 Summary of this function goes here
 %   Detailed explanation goes here
-
+% --args--
+% dataDir: String for entire path to directory containing the folders of
+%          each subjects data.
+%          Example usage: dataDir = [pwd '/data'];
+%
     %% Setup file information
     %
 
@@ -9,9 +13,6 @@ function [] = linregressT1(dataDir)
 
     namesB1 = {'Double Angle','Bloch-Siegert','AFI','EPI Double Angle',};
 
-    reshapedT1AllMethods=[];
-    reshapedT1AllSubjects=[];
-    reshapedB1All=[];
     for counterSubject = 1:length(subjectID)
         [t1_hdr,t1{counterSubject,1}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_tse.mnc']);
         [~,t1{counterSubject,2}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/t1/t1_clt_vfa_spoil_b1_clt_bs.mnc']);
