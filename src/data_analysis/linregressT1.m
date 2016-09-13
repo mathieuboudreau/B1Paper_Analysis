@@ -40,6 +40,7 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 
     % pooled data columns are for each B1 methods
     pooledSubjectData_t1  = cell(0);
+    pooledSubjectData_b1  = cell(0);
 
     %% Load all data into cell array
     %
@@ -56,13 +57,18 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 
     for counterB1 = 1:numB1
         pooledSubjectData_t1{counterB1}=[allData_t1{1,counterB1}(:);allData_t1{2,counterB1}(:);allData_t1{3,counterB1}(:);allData_t1{4,counterB1}(:);allData_t1{5,counterB1}(:);allData_t1{6,counterB1}(:)];
+        pooledSubjectData_b1{counterB1}=[allData_b1{1,counterB1}(:);allData_b1{2,counterB1}(:);allData_b1{3,counterB1}(:);allData_b1{4,counterB1}(:);allData_b1{5,counterB1}(:);allData_b1{6,counterB1}(:)];
     end
 
-    allzeros=(pooledSubjectData_t1{1}==0)&(pooledSubjectData_t1{2}==0)&(pooledSubjectData_t1{3}==0)&(pooledSubjectData_t1{4}==0);
+    allzerosT1=(pooledSubjectData_t1{1}==0)&(pooledSubjectData_t1{2}==0)&(pooledSubjectData_t1{3}==0)&(pooledSubjectData_t1{4}==0);
+    allzerosB1=(pooledSubjectData_b1{1}==0)&(pooledSubjectData_b1{2}==0)&(pooledSubjectData_b1{3}==0)&(pooledSubjectData_b1{4}==0);
 
     for counterB1 = 1:numB1
         reshapedT1_scatter{counterB1}=pooledSubjectData_t1{counterB1};
-        reshapedT1_scatter{counterB1}(allzeros)=[];
+        reshapedT1_scatter{counterB1}(allzerosT1)=[];
+
+        reshapedB1_scatter{counterB1}=pooledSubjectData_b1{counterB1};
+        reshapedB1_scatter{counterB1}(allzerosB1)=[];
 
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}>1.5)=[];
         %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}<0.5)=[];
@@ -80,12 +86,20 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 
     % Initialize cell arrays
     yFreqT1 = cell(1,numB1-1); % Since these are percent differences relative to a reference, one less cell is required.
+    yFreqB1 = cell(1,numB1-1); % Since these are percent differences relative to a reference, one less cell is required.
+
     xT1     = cell(1,numB1-1);
-    pDiff   = cell(1,numB1-1);
+    xB1     = cell(1,numB1-1);
+
+    pDiffT1   = cell(1,numB1-1);
+    pDiffB1   = cell(1,numB1-1);
 
     for counterB1 = 2:numB1
-        pDiff{counterB1-1} = (reshapedT1_scatter{1} - reshapedT1_scatter{counterB1})./reshapedT1_scatter{1}.*100;
-        [yFreqT1{counterB1-1},xT1{counterB1-1}]=hist(pDiff{counterB1-1},40);
+        pDiffT1{counterB1-1} = (reshapedT1_scatter{1} - reshapedT1_scatter{counterB1})./reshapedT1_scatter{1}.*100;
+        [yFreqT1{counterB1-1},xT1{counterB1-1}]=hist(pDiffT1{counterB1-1},40);
+
+        pDiffB1{counterB1-1} = (reshapedB1_scatter{1} - reshapedB1_scatter{counterB1})./reshapedB1_scatter{1}.*100;
+        [yFreqB1{counterB1-1},xB1{counterB1-1}]=hist(pDiffB1{counterB1-1},40);
     end
 
     %% Plot histograms
@@ -95,4 +109,6 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     close(gcf) % lines creates an empty figure, so closing it here
 
     plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'a.u.', b1Keys(2:end), colours(2:end,:));
+    plotHistogram(xB1, yFreqB1, 'B_1 (s)'   , 'a.u.', b1Keys(2:end), colours(2:end,:));
+
 end
