@@ -75,4 +75,24 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
         plotScatter(reshapedT1_scatter{1}, reshapedT1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA T1 (s)');
     end
 
+    %% Perc Diff Hist
+    %
+
+    % Initialize cell arrays
+    yFreqT1 = cell(1,numB1-1); % Since these are percent differences relative to a reference, one less cell is required.
+    xT1     = cell(1,numB1-1);
+    pDiff   = cell(1,numB1-1);
+
+    for counterB1 = 2:numB1
+        pDiff{counterB1-1} = (reshapedT1_scatter{1} - reshapedT1_scatter{counterB1})./reshapedT1_scatter{1}.*100;
+        [yFreqT1{counterB1-1},xT1{counterB1-1}]=hist(pDiff{counterB1-1},40);
+    end
+
+    %% Plot histograms
+    %
+
+    colours = lines;
+    close(gcf) % lines creates an empty figure, so closing it here
+
+    plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'a.u.', b1Keys(2:end), colours(2:end,:));
 end
