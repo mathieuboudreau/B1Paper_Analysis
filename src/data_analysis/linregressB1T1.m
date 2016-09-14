@@ -63,6 +63,9 @@ function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOption
     outlierMaskT1 = generateOutlierMask(pooledSubjectData_t1, [0.5 1.5], 1, 60);
     outlierMaskB1 = generateOutlierMask(pooledSubjectData_b1, [0.5 1.5], 1, 60);
 
+    reshapedT1_scatter = cell(1,numB1);
+    reshapedB1_scatter = cell(1,numB1);
+
     for counterB1 = 1:numB1
         reshapedT1_scatter{counterB1}=pooledSubjectData_t1{counterB1};
         reshapedT1_scatter{counterB1}(outlierMaskT1)=[];
@@ -73,6 +76,9 @@ function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOption
 
     %% Scatterplots
     %
+
+    statsStructT1 = cell(1,numB1-1);
+    statsStructB1 = cell(1,numB1-1);
 
     for counterB1 = 2:numB1
         statsStructT1{counterB1-1} = plotScatter(reshapedT1_scatter{1}, reshapedT1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA T1 (s)');
