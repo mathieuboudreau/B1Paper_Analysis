@@ -65,13 +65,16 @@ function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOption
         end
     end
 
-    %%
+    %% Pool subject data
     %
 
     for counterB1 = 1:numB1
         pooledSubjectData_t1{counterB1}=[allData_t1{1,counterB1}(:);allData_t1{2,counterB1}(:);allData_t1{3,counterB1}(:);allData_t1{4,counterB1}(:);allData_t1{5,counterB1}(:);allData_t1{6,counterB1}(:)];
         pooledSubjectData_b1{counterB1}=[allData_b1{1,counterB1}(:);allData_b1{2,counterB1}(:);allData_b1{3,counterB1}(:);allData_b1{4,counterB1}(:);allData_b1{5,counterB1}(:);allData_b1{6,counterB1}(:)];
     end
+
+    %% Remove outliers and zeros/nan/infs
+    %
 
     outlierMaskT1 = generateOutlierMask(pooledSubjectData_t1, [0.5 1.5], 1, 60);
     outlierMaskB1 = generateOutlierMask(pooledSubjectData_b1, [0.5 1.5], 1, 60);
@@ -98,7 +101,7 @@ function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOption
         statsStructB1{counterB1-1} = plotScatter(reshapedB1_scatter{1}, reshapedB1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA B1 (s)');
     end
 
-    %% Perc Diff Hist
+    %% Prepare percent difference histogram data
     %
 
     % Initialize cell arrays
@@ -119,7 +122,7 @@ function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOption
         [yFreqB1{counterB1-1},xB1{counterB1-1}]=hist(pDiffB1{counterB1-1},40);
     end
 
-    %% Plot histograms
+    %% Plot percent difference histograms
     %
 
     colours = lines;
