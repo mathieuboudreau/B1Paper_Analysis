@@ -1,11 +1,13 @@
 function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOptions)
-%LINREGRESST1 Summary of this function goes here
+%LINREGRESST1 Perform regression analysis, plot respective scatterplots,
+%and plot histograms of percent differences (voxelwise) between methods and
+%the reference.
 %
-% Example usage: linregressT1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'})
-%                                                           **The first
-%                                                           entry, e.g.
-%                                                           clt_da, will be
-%                                                           the reference
+% Example usage: [statsStructB1, statsStructT1] = linregressB1T1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'})
+%                                                                                               **The first
+%                                                                                               entry, e.g.
+%                                                                                               clt_da, will be
+%                                                                                               the reference
 % --args--
 % dataDir: String for entire path to directory containing the folders of
 %          each subjects data.
@@ -16,6 +18,17 @@ function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOption
 %          for format of each cells.
 %          Example usage: b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'}
 %
+% --return--
+% statsStructB1 and statsStructT1: Linear regressions statistics structure.
+%                  --Attributes--
+%                  ref: Name of reference method
+%                  name: Name of method-of-interest
+%                  slope: Linear fit slope value
+%                  intercept: Linear fit y-intercept value
+%                  pearsonCorr: Pearson correlation coefficient
+%                  r2: r-square value
+%
+
     %% Setup file information
     %
 
