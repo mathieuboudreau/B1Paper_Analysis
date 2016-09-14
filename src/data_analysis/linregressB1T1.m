@@ -1,4 +1,4 @@
-function [] = linregressT1(dataDir, b1t1FileOptions)
+function [] = linregressB1T1(dataDir, b1t1FileOptions)
 %LINREGRESST1 Summary of this function goes here
 %
 % Example usage: linregressT1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'})
