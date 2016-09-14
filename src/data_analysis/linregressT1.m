@@ -60,18 +60,15 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
         pooledSubjectData_b1{counterB1}=[allData_b1{1,counterB1}(:);allData_b1{2,counterB1}(:);allData_b1{3,counterB1}(:);allData_b1{4,counterB1}(:);allData_b1{5,counterB1}(:);allData_b1{6,counterB1}(:)];
     end
 
-    allzerosT1=(pooledSubjectData_t1{1}==0)&(pooledSubjectData_t1{2}==0)&(pooledSubjectData_t1{3}==0)&(pooledSubjectData_t1{4}==0);
-    allzerosB1=(pooledSubjectData_b1{1}==0)&(pooledSubjectData_b1{2}==0)&(pooledSubjectData_b1{3}==0)&(pooledSubjectData_b1{4}==0);
+    outlierMaskT1 = generateOutlierMask(pooledSubjectData_t1, [0.5 1.5], 1, 60);
+    outlierMaskB1 = generateOutlierMask(pooledSubjectData_b1, [0.5 1.5], 1, 60);
 
     for counterB1 = 1:numB1
         reshapedT1_scatter{counterB1}=pooledSubjectData_t1{counterB1};
-        reshapedT1_scatter{counterB1}(allzerosT1)=[];
+        reshapedT1_scatter{counterB1}(outlierMaskT1)=[];
 
         reshapedB1_scatter{counterB1}=pooledSubjectData_b1{counterB1};
-        reshapedB1_scatter{counterB1}(allzerosB1)=[];
-
-        %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}>1.5)=[];
-        %reshapedT1_scatter{ii}(reshapedT1_scatter{ii}<0.5)=[];
+        reshapedB1_scatter{counterB1}(outlierMaskB1)=[];
     end
 
     %% Scatterplots
@@ -79,6 +76,7 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
 
     for counterB1 = 2:numB1
         plotScatter(reshapedT1_scatter{1}, reshapedT1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA T1 (s)');
+        plotScatter(reshapedB1_scatter{1}, reshapedB1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA B1 (s)');
     end
 
     %% Perc Diff Hist
@@ -106,7 +104,6 @@ function [] = linregressT1(dataDir, b1t1FileOptions)
     %
 
     colours = lines;
-    close(gcf) % lines creates an empty figure, so closing it here
 
     plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'a.u.', b1Keys(2:end), colours(2:end,:));
     plotHistogram(xB1, yFreqB1, 'B_1 (s)'   , 'a.u.', b1Keys(2:end), colours(2:end,:));
