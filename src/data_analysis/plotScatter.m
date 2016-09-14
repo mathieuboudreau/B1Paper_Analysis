@@ -1,4 +1,4 @@
-function plotScatter(xData, yData, axisLabels, titleName)
+function [statsStruct] = plotScatter(xData, yData, axisLabels, titleName)
 %PLOTSCATTER Plot scatter points data, and show linear regression & pearson
 %corr data.
 %   --args--
@@ -13,10 +13,16 @@ function plotScatter(xData, yData, axisLabels, titleName)
     xlabel(axisLabels{1},'fontweight','bold','fontsize',12)
     ylabel(axisLabels{2},'fontweight','bold','fontsize',12)
     p= polyfit(xData,yData,1);
-    f= polyval(p,xData);
-    [a,b,c,d,e]=regress(xData,yData);
     pearsCoeff=corr(xData, yData);
-    annotation('textbox', [.2 .8, .1, .1],'String', [ {['y = ' num2str(p(1)) 'x + ' num2str(p(2))]} ; {['r2 = ' num2str(e(1))]}; {['Pearson Corr. Coeff = ' num2str(pearsCoeff)]}]);
+    annotation('textbox', [.2 .8, .1, .1],'String', [ {['y = ' num2str(p(1)) 'x + ' num2str(p(2))]} ; {['r2 = ' num2str(pearsCoeff^2)]}; {['Pearson Corr. Coeff = ' num2str(pearsCoeff)]}]);
     title(titleName,'fontweight','bold','fontsize',16)
+
+    statsStruct.slope       = p(1);
+    statsStruct.intercept   = p(2);
+    statsStruct.pearsonCorr = pearsCoeff;
+    statsStruct.r2          = pearsCoeff^2;
+
+    statsStruct.ref  = axisLabels{1};
+    statsStruct.name = axisLabels{2};
 end
 

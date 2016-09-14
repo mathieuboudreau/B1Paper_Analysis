@@ -1,4 +1,4 @@
-function [] = linregressB1T1(dataDir, b1t1FileOptions)
+function [statsStructB1, statsStructT1] = linregressB1T1(dataDir, b1t1FileOptions)
 %LINREGRESST1 Summary of this function goes here
 %
 % Example usage: linregressT1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'vfa_spoil'})
@@ -75,8 +75,8 @@ function [] = linregressB1T1(dataDir, b1t1FileOptions)
     %
 
     for counterB1 = 2:numB1
-        plotScatter(reshapedT1_scatter{1}, reshapedT1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA T1 (s)');
-        plotScatter(reshapedB1_scatter{1}, reshapedB1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA B1 (s)');
+        statsStructT1{counterB1-1} = plotScatter(reshapedT1_scatter{1}, reshapedT1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA T1 (s)');
+        statsStructB1{counterB1-1} = plotScatter(reshapedB1_scatter{1}, reshapedB1_scatter{counterB1}, {namesB1{1}, namesB1{counterB1}}, 'VFA B1 (s)');
     end
 
     %% Perc Diff Hist
