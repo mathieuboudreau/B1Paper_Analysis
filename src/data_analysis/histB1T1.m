@@ -115,7 +115,7 @@ function [] = histB1T1(dataDir, b1t1FileOptions, b1t1OutlierMinMax)
     colours = lines;
     close(gcf) % lines creates an empty figure, so closing it here
 
-    plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'a.u.', b1Keys, colours);
-    plotHistogram(xB1, yFreqB1, 'B_1 (n.u.)', 'a.u.', b1Keys, colours);
+    plotHistogram(xT1, yFreqT1, 'T_1 (s)'   , 'Normalized frequency (s^{-1})', b1Keys, colours);
+    plotHistogram(xB1, yFreqB1, 'B_1 (n.u.)', 'Normalized frequency (n.u.)', b1Keys, colours);
 
 end
