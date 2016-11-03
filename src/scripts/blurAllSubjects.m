@@ -8,6 +8,12 @@ clear all
 clc
 close all
 
+%% Debug flag
+%
+
+% If DEBUG=1, b1_blur and b1_spline folders will be removed at the end for all subjects.
+DEBUG=1;
+
 %% Data info
 %
 
@@ -39,14 +45,39 @@ for counterSubject = 1:numSubjects
 
     % Load study indices for all measurements for this subject
     study_info
+
+    if(~isdir('b1_blur'))
+        mkdir b1_blur
+    end
+
+    if(~isdir('b1_spline'))
+        mkdir b1_spline
+    end
 end
 
 %% Cleanup
 %
+% *** TEMP *** Delete data & folders for now during development. Remove
+% later.
+if(DEBUG==1)
+    for counterSubject = 1:numSubjects
+        cd([dataDir '/' subjectIDs{counterSubject}])
+        disp(cd)
 
+        if(isdir('b1_blur'))
+            rmdir('b1_blur')
+        end
+
+        if(isdir('b1_spline'))
+            rmdir('b1_spline')
+        end
+    end
+end
+% Return to original folder
 cd(olddir)
 
 
+%
 % % **Needs to be manually modified for each scans/protocol**
 % study_info
 % 
