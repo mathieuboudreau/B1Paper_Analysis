@@ -77,17 +77,6 @@ end
 cd(olddir)
 
 
-%
-% % **Needs to be manually modified for each scans/protocol**
-% study_info
-% 
-% %% Calculate B1 maps
-% %
-% 
-% % Blur
-% mkdir b1_blur
-% mkdir b1_spline
-% 
 % system(['mincblur -no_apodize -dim 2 -fwhm 10 b1_whole_brain/b1_clt_tse.mnc b1_blur/b1_clt_tse' ]);
 % system(['mincblur -no_apodize -dim 2 -fwhm 10 b1_whole_brain/b1_clt_afi.mnc b1_blur/b1_clt_afi' ]);
 % system(['mincblur -no_apodize -dim 2 -fwhm 10 b1_whole_brain/b1_clt_gre_bs_cr_fermi.mnc b1_blur/b1_clt_gre_bs_cr_fermi' ]);
