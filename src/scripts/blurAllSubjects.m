@@ -8,6 +8,25 @@ clear all
 clc
 close all
 
+%% Data info
+%
+
+dataDir = [pwd '/data'];
+b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'};
+
+%% Setup file information
+%
+
+subjectID = dirs2cells(dataDir);
+
+s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptions{3}, b1t1FileOptions{4});
+b1Keys = b1t1FileOptions{3}; % shorthand names of the b1 methods
+b1ID = s.b1Files;
+t1ID = s.t1Files;
+
+numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
+numSubjects = size(subjectID,1);
+
 % 
 % 
 % 
