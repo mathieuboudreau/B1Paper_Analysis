@@ -27,6 +27,22 @@ t1ID = s.t1Files;
 numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
 numSubjects = size(subjectID,1);
 
+
+%% Blur maps for each subjects
+%
+
+olddir = cd;
+
+for counterSubject = 1:numSubjects
+    cd([dataDir '/' subjectID{counterSubject}])
+    disp(cd)
+end
+
+%% Cleanup
+%
+
+cd(olddir)
+
 % 
 % 
 % 
