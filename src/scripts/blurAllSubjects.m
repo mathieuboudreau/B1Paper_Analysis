@@ -43,25 +43,7 @@ end
 
 cd(olddir)
 
-% 
-% 
-% 
-% %% Make directories
-% %
-% 
-% olddir = cd;
-% 
-% %cd('/Users/mathieuboudreau/Work/Projects/B1smoothing/BlurHistComp/ISMRM/alonso_eva_20131025_141318')
-% %cd('/Users/mathieuboudreau/Work/Projects/B1smoothing/BlurHistComp/ISMRM/arseneault_ryan_20131015_140558')
-% %cd('/Users/mathieuboudreau/Work/Projects/B1smoothing/BlurHistComp/ISMRM/caissie_jessica_20131015_152703')
-% %cd('/Users/mathieuboudreau/Work/Projects/B1smoothing/BlurHistComp/ISMRM/collette_marc_20131024_093735')
-% %cd('/Users/mathieuboudreau/Work/Projects/B1smoothing/BlurHistComp/ISMRM/mazerolle_erin_20131016_152802')
-% cd('/Users/mathieuboudreau/Work/Projects/B1smoothing/BlurHistComp/ISMRM/stikov_nikola_20131017_113942')
-% 
-% 
-% %% Load study info
-% %
-% 
+
 % % **Needs to be manually modified for each scans/protocol**
 % study_info
 % 
