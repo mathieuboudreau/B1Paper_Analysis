@@ -4,10 +4,10 @@ clear all
 close all
 clc
 
-histB1T1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi', 'nominal'}, 'gre'}, {[0.5 1.5],[0.5 1.5]})
+[~, ~, xT1, yFreqT1] = histB1T1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi', 'nominal'}, 'gre'}, {[0.5 1.5],[0.5 1.5]});
 
 
-histB1T1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'}, {[0.5 1.5],[0.5 1.5]})
+[xB1, yFreqB1, ~, ~] = histB1T1([pwd '/data'], {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'}, {[0.5 1.5],[0.5 1.5]});
 
 figHandles = findobj('Type','figure');
 
@@ -34,4 +34,33 @@ for ii=length(figHandles):-1:1
 
         legend boxoff
     end
+end
+
+%% Get modes
+%
+
+b1Mode{1} = {'clt_da', xB1{1}((max(yFreqB1{1})==yFreqB1{1}))};
+b1Mode{2} = {'bs', xB1{2}((max(yFreqB1{2})==yFreqB1{2}))};
+b1Mode{3} = {'afi', xB1{3}((max(yFreqB1{3})==yFreqB1{3}))};
+b1Mode{4} = {'epi_da', xB1{4}((max(yFreqB1{4})==yFreqB1{4}))};
+
+for ii = 1:4
+   disp('B1')
+   disp(b1Mode{ii}(1))
+   disp(b1Mode{ii}(2))
+   disp((cell2mat(b1Mode{ii}(2))-cell2mat(b1Mode{1}(2)))./cell2mat(b1Mode{1}(2))*100)
+end
+
+
+t1Mode{1} = {'clt_da', xT1{1}((max(yFreqT1{1})==yFreqT1{1}))};
+t1Mode{2} = {'bs', xT1{2}((max(yFreqT1{2})==yFreqT1{2}))};
+t1Mode{3} = {'afi', xT1{3}((max(yFreqT1{3})==yFreqT1{3}))};
+t1Mode{4} = {'epi_da', xT1{4}((max(yFreqT1{4})==yFreqT1{4}))};
+t1Mode{5} = {'nominal', xT1{5}((max(yFreqT1{5})==yFreqT1{5}))};
+
+for ii = 1:5
+   disp('T1')
+   disp(t1Mode{ii}(1))
+   disp(t1Mode{ii}(2))
+   disp((cell2mat(t1Mode{ii}(2))-cell2mat(t1Mode{1}(2)))./cell2mat(t1Mode{1}(2))*100)
 end
