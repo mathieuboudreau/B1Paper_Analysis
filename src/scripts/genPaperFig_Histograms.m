@@ -49,6 +49,7 @@ for ii = 1:4
    disp(b1Mode{ii}(1))
    disp(b1Mode{ii}(2))
    disp((cell2mat(b1Mode{ii}(2))-cell2mat(b1Mode{1}(2)))./cell2mat(b1Mode{1}(2))*100)
+   b1ModeTable(ii) = (cell2mat(b1Mode{ii}(2))-cell2mat(b1Mode{1}(2)))./cell2mat(b1Mode{1}(2))*100;
 end
 
 
@@ -63,4 +64,8 @@ for ii = 1:5
    disp(t1Mode{ii}(1))
    disp(t1Mode{ii}(2))
    disp((cell2mat(t1Mode{ii}(2))-cell2mat(t1Mode{1}(2)))./cell2mat(t1Mode{1}(2))*100)
+   t1ModeTable(ii) = (cell2mat(t1Mode{ii}(2))-cell2mat(t1Mode{1}(2)))./cell2mat(t1Mode{1}(2))*100;
 end
+
+disp(b1ModeTable)
+disp(t1ModeTable)
