@@ -42,3 +42,9 @@ clear b1map_tmp diagionalGrad
 sinB1Map = b1Map_ref + sinB1MapAmpl * sin(sinB1MapFreq * Xgrad);
 
 figIndex = figIndex+1; figure(figIndex), imagesc(sinB1Map), axis image, set(gca, 'XTick', [], 'YTick', []), colormap(jet), title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
+
+%% Plot histograms
+%
+
+figIndex = figIndex+1; figure(figIndex), hist(b1Map_ref(:), 25), axis([0.25 1.75 0 1000]), title('Ref. B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
+figIndex = figIndex+1; figure(figIndex), hist(sinB1Map (:), 25), axis([0.25 1.75 0 1000]), title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
