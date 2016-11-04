@@ -50,9 +50,15 @@ blurredSinB1Map = imgaussfilt(sinB1Map, 3.333);
 
 figIndex = figIndex+1; figure(figIndex), imagesc(blurredSinB1Map), axis image, set(gca, 'XTick', [], 'YTick', []), colormap(jet), title('Blurred Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
 
+%% Calculate correlations relative to reference
+%
+
+corr_sinB1 = round(corr(b1Map_ref(:), sinB1Map(:)),3);
+corr_blurredSinB1 = round(corr(b1Map_ref(:), blurredSinB1Map(:)),3);
+
 %% Plot histograms
 %
 
 figIndex = figIndex+1; figure(figIndex), hist(b1Map_ref(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Ref. B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
-figIndex = figIndex+1; figure(figIndex), hist(sinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
-figIndex = figIndex+1; figure(figIndex), hist(blurredSinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Blurred Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
+figIndex = figIndex+1; figure(figIndex), hist(sinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal'), text(1.1,900,['Pearson Correlation = ' mat2str(corr_sinB1)], 'FontSize', 12)
+figIndex = figIndex+1; figure(figIndex), hist(blurredSinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Blurred Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal'), text(1.1,900, ['Pearson Correlation = ' mat2str(corr_blurredSinB1)], 'FontSize', 12)
