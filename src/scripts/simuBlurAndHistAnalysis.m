@@ -53,6 +53,6 @@ figIndex = figIndex+1; figure(figIndex), imagesc(blurredSinB1Map), axis image, s
 %% Plot histograms
 %
 
-figIndex = figIndex+1; figure(figIndex), hist(b1Map_ref(:), 25), axis([0.25 1.75 0 1000]), title('Ref. B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
-figIndex = figIndex+1; figure(figIndex), hist(sinB1Map(:), 25), axis([0.25 1.75 0 1000]), title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
-figIndex = figIndex+1; figure(figIndex), hist(blurredSinB1Map(:), 25), axis([0.25 1.75 0 1000]), title('Blurred Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
+figIndex = figIndex+1; figure(figIndex), hist(b1Map_ref(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Ref. B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
+figIndex = figIndex+1; figure(figIndex), hist(sinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
+figIndex = figIndex+1; figure(figIndex), hist(blurredSinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Blurred Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
