@@ -80,6 +80,25 @@ corr_blurredBiasB1Map = round(corr(b1Map_ref(:), blurredBiasB1Map(:)),3);
 
 figIndex = figIndex+1; figure(figIndex), hist(b1Map_ref(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Ref. B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal')
 figIndex = figIndex+1; figure(figIndex), hist(sinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal'), text(1.1,900,['Pearson Correlation = ' mat2str(corr_sinB1)], 'FontSize', 12)
+figIndex = figIndex+1; figure(figIndex), hist(blurredSinB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Blurred Sin B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal'), text(1.1,900,['Pearson Correlation = ' mat2str(corr_sinB1)], 'FontSize', 12)
 
 figIndex = figIndex+1; figure(figIndex), hist(biasB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Bias B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal'), text(1.1,900, ['Pearson Correlation = ' mat2str(corr_biasB1Map)], 'FontSize', 12)
 figIndex = figIndex+1; figure(figIndex), hist(blurredBiasB1Map(:), 25), axis([0.25 1.75 0 1000]), axis square, title('Blurred Bias B_1 Map', 'FontSize', 24, 'FontName', 'TimesNewRoman', 'FontWeight', 'normal'), text(1.1,900, ['Pearson Correlation = ' mat2str(corr_blurredBiasB1Map)], 'FontSize', 12)
+
+%% Plot overlayed hists
+%
+
+% Initialize cell arrays
+yFreqB1 = cell(1,5);
+xB1     = cell(1,5);
+
+b1Keys = {'Ref. B_1 Map', ['Sin B_1 Map, corr = ' mat2str(corr_sinB1)], ['Bias B_1 Map, corr = ' mat2str(corr_biasB1Map)], ['Blurred Bias B_1 Map, corr = ' mat2str(corr_blurredBiasB1Map)]};
+
+[yFreqB1{1},xB1{1}]=hist(b1Map_ref(:),25);
+[yFreqB1{2},xB1{2}]=hist(sinB1Map(:),25);
+[yFreqB1{3},xB1{3}]=hist(blurredSinB1Map(:),25);
+[yFreqB1{4},xB1{4}]=hist(biasB1Map(:),25);
+[yFreqB1{5},xB1{5}]=hist(blurredBiasB1Map(:),25);
+
+colours = lines;
+plotHistogram(xB1, yFreqB1, 'B_1 (n.u.)', 'Normalized frequency (n.u.)', b1Keys, colours);
