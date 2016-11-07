@@ -18,7 +18,7 @@ DEBUG=1;
 %
 
 dataDir = [pwd '/data'];
-b1t1FileOptions = {'b1/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'};
+b1t1FileOptions = {'b1_whole_brain/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'};
 
 %% Setup file information
 %
@@ -33,6 +33,7 @@ t1ID = s.t1Files;
 numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
 numSubjects = size(subjectIDs,1);
 
+blurDirs = {'b1_blur', 'b1_spline'};
 
 %% Blur maps for each subjects
 %
@@ -41,38 +42,37 @@ olddir = cd;
 
 for counterSubject = 1:numSubjects
     cd([dataDir '/' subjectIDs{counterSubject}])
-    disp(cd)
+    disp(cd);
 
     % Load study indices for all measurements for this subject
     study_info
 
-    if(~isdir('b1_blur'))
-        mkdir b1_blur
+    for ii = 1:length(blurDirs)
+        if(~isdir(blurDirs{ii}))
+            mkdir(blurDirs{ii})
+        end
     end
 
-    if(~isdir('b1_spline'))
-        mkdir b1_spline
-    end
 end
 
 %% Cleanup
 %
 % *** TEMP *** Delete data & folders for now during development. Remove
 % later.
+
 if(DEBUG==1)
     for counterSubject = 1:numSubjects
         cd([dataDir '/' subjectIDs{counterSubject}])
-        disp(cd)
+        disp(cd);
 
-        if(isdir('b1_blur'))
-            rmdir('b1_blur')
-        end
-
-        if(isdir('b1_spline'))
-            rmdir('b1_spline')
+        for ii = 1:length(blurDirs)
+            if(~isdir(blurDirs{ii}))
+                mkdir(blurDirs{ii})
+            end
         end
     end
 end
+
 % Return to original folder
 cd(olddir)
 
