@@ -1,6 +1,40 @@
 %% B1T1qMT Comparison
 %
 
+% This one is a little bit more complicated to use, due to the fact that
+% single-slice mincblur -ing doesn't work for mincversion above 2.1.10, and
+% must be applied using MINC1 files. Here's the steps I followed to get
+% this script to work.
+
+% 1. rsync -r /Users/mathieuboudreau/Work/Analysis_PhDWork/B1Paper_Analysis/data/remote/ mboudrea@login.bic.mni.mcgill.ca:/data/mril/mril13/mboudrea/temp/B1Paper_Analysis/data
+%   -> data/remote/ contains each subject, but only the MINC2 folders b1_whole_brain and t1_whole_brain
+% 2. Remotely on  lafite, cd to /data/mril/mril13/mboudrea/temp/B1Paper_Analysis/data
+%
+% 3. For each subject in data/, execute: python3 convert_dir_minc2_to_minc1.py subject/b1_whole_brain
+%                               and      python3 convert_dir_minc2_to_minc1.py subject/t1_whole_brain
+%
+% 4. Return to B1Paper_Analysis folder.
+%
+% 5. Run matlab15a
+%
+% 6. Execute startup.m
+%
+% 7. Execute blurAllSubjects.m (this script)
+%
+% 8. Locally, rsync -r /Users/mathieuboudreau/Work/Analysis_PhDWork/B1Paper_Analysis/data/remote/ mboudrea@login.bic.mni.mcgill.ca:/data/mril/mril13/mboudrea/temp/B1Paper_Analysis/data
+%
+% 9. Then, return to the local session.
+%
+% 10. Copy the b1_blur and b1_spline in each subject in the data/remote/subject folders to their respective data/subects/ folders
+%
+% 11. cd to data/
+%
+% 12. For each subject in data/, execute: python3 convert_dir_minc1_to_minc2.py subject/b1_blur
+%                                and      python3 convert_dir_minc1_to_minc2.py subject/b1_spline
+%
+% 13. Verify that the maps were blurred correctly using register!
+
+
 %% Clear session
 %
 
