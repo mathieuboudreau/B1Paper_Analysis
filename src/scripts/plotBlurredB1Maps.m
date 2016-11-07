@@ -43,10 +43,13 @@ for counterSubject = 1:numSubjects
     [~,mask]=niak_read_minc(maskFile);
     
     mask = logical(mask);
-    
+
     for ii = 1:length(b1)
-        figure(counterSubject*100 + ii),imagesc(cat(1, imrotate(b1{ii}.*mask,-90) , imrotate(blur{ii}.*mask,-90))), caxis([0.7 1.2]), colormap(jet),  axis image
+        rawB1{ii} = imrotate(b1{ii}.*mask,-90);
+        blurB1{ii} = imrotate(blur{ii}.*mask,-90);
     end
+
+    figure(counterSubject), imagesc([rawB1{1:4}; blurB1{1:4}]), caxis([0.7 1.2]), colormap(jet),  axis image
 end
 
 cd(oldDir)
