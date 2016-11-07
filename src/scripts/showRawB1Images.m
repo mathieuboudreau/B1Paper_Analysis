@@ -53,7 +53,7 @@ set(gcf, 'Position', [1 1 1280 1280])
 figure(4), imshow(cat(1,epi_1_masked./max(max(epi_1_masked)),epi_2_masked./max(max(epi_1_masked)))), axis image
 set(gcf, 'Position', [1 1 1280 1280])
 
-figure(5), imshow(cat(1,clt_da_1_masked.*0, clt_da_1_masked.*0)), axis image
+figure(5), imshow(cat(1,clt_da_1_masked.*0+0.5, clt_da_1_masked.*0+0.5)), axis image
 set(gcf, 'Position', [1 1 1280 1280])
 
 %%
