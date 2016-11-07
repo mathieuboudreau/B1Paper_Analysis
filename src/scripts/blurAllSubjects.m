@@ -49,6 +49,7 @@ fwhmVal = 5;
 olddir = cd;
 
 for counterSubject = 1:numSubjects
+    cd([dataDir '/' subjectID{counterSubject}]);
 
     for ii = 1:length(blurDirs)
         if(~isdir(blurDirs{ii}))
@@ -56,7 +57,7 @@ for counterSubject = 1:numSubjects
         end
 
         for jj = 1:length(b1ID)
-            [~,b1{jj}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{jj}]);
+            [b1_hdr{jj},b1{jj}] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' b1ID{jj}]);
         end
 
         [~,mask] = niak_read_minc([dataDir '/' subjectID{counterSubject} '/' maskFile]);
@@ -64,13 +65,14 @@ for counterSubject = 1:numSubjects
 
         switch blurDirs{ii}
             case 'b1_gauss'
-                 for jj = 1:length(b1ID)
+                for jj = 1:length(b1ID)
                     b1Blur{jj} = gaussBlurMasked(b1{jj}, mask, fwhmVal);
-                    figure(), imagesc(cat(2,imrotate(b1{jj}.*mask,-90), imrotate(b1Blur{jj}.*mask,-90))), axis image, caxis([0.7 1.2]), colormap(jet);
-                 end
+
+                    b1_hdr{jj}.file_name = [dataDir '/' subjectID{counterSubject} '/' blurDirs{ii} b1ID{jj}(length(b1t1FileOptions{1}):end)];
+                    niak_write_minc_ss(b1_hdr{jj},b1Blur{jj}.*mask);
+                end
         end
     end
-
 end
 
 %% Cleanup
@@ -80,7 +82,7 @@ end
 
 if(DEBUG==1)
     for counterSubject = 1:numSubjects
-        cd([dataDir '/' subjectIDs{counterSubject}])
+        cd([dataDir '/' subjectID{counterSubject}])
         disp(cd)
 
         for ii = 1:length(blurDirs)
