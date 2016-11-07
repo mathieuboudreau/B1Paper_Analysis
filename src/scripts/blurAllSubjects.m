@@ -12,13 +12,15 @@ close all
 %
 
 % If DEBUG=1, b1_blur and b1_spline folders will be removed at the end for all subjects.
-DEBUG=1;
+DEBUG=0;
 
 %% Data info
 %
 
 dataDir = [pwd '/data'];
 b1t1FileOptions = {'b1_whole_brain/', 't1/', {'clt_da', 'bs', 'afi', 'epi'}, 'gre'};
+
+maskFile = 't1_whole_brain/t1_clt_vfa_spoil_b1_clt_tse_mask.mnc';
 
 %% Setup file information
 %
@@ -29,6 +31,7 @@ s = generateStructB1T1Data(b1t1FileOptions{1}, b1t1FileOptions{2}, b1t1FileOptio
 b1Keys = b1t1FileOptions{3}; % shorthand names of the b1 methods
 b1ID = s.b1Files;
 t1ID = s.t1Files;
+mincExtension = '.mnc';
 
 numB1 = size(b1ID,2); % Number of B1 methods compared, e.g. number of curves to be displayed in the hist plots.
 numSubjects = size(subjectIDs,1);
@@ -42,7 +45,7 @@ olddir = cd;
 
 for counterSubject = 1:numSubjects
     cd([dataDir '/' subjectIDs{counterSubject}])
-    disp(cd);
+    disp(cd)
 
     % Load study indices for all measurements for this subject
     study_info
@@ -50,6 +53,22 @@ for counterSubject = 1:numSubjects
     for ii = 1:length(blurDirs)
         if(~isdir(blurDirs{ii}))
             mkdir(blurDirs{ii})
+        end
+        switch blurDirs{ii}
+            case 'b1_blur'
+                 for jj = 1:length(b1ID)
+%                     Only runs on lafite at the bic, not my laptop. Must
+%                     have the following mincinfo -version
+%                     program: 2.1.10
+%                     libminc: 2.1.10
+%                     netcdf : "3.6.3" of Apr 17 2013 00:19:55 $
+%                     HDF5   : 1.8.8
+                    system(['mincblur -clobber -no_apodize -dimensions 2 -fwhm 2 ' b1ID{jj} ' b1_blur' b1ID{jj}(length(b1t1FileOptions{1}):(end-length(mincExtension)))])
+                end
+            case 'b1_spline'
+                for jj = 1:length(b1ID)
+                    system(['spline_smooth -verbose -clobber -distance 60 -lambda 2.5119e-06 -mask ' maskFile ' ' b1ID{jj} ' b1_spline' b1ID{jj}(length(b1t1FileOptions{1}):(end))])
+                end
         end
     end
 
@@ -63,11 +82,11 @@ end
 if(DEBUG==1)
     for counterSubject = 1:numSubjects
         cd([dataDir '/' subjectIDs{counterSubject}])
-        disp(cd);
+        disp(cd)
 
         for ii = 1:length(blurDirs)
-            if(~isdir(blurDirs{ii}))
-                mkdir(blurDirs{ii})
+            if(isdir(blurDirs{ii}))
+                rmdir(blurDirs{ii},'s')
             end
         end
     end
