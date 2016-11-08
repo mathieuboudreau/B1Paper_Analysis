@@ -32,14 +32,14 @@ for counterSubject = 1:numSubjects
     cd([dataDir '/' subjectIDs{counterSubject}])
 
     [~, b1{1}]=niak_read_minc('b1_whole_brain/b1_clt_tse.mnc');
-    [~, b1{2}]=niak_read_minc('b1_whole_brain/b1_clt_afi.mnc');
-    [~, b1{3}]=niak_read_minc('b1_whole_brain/b1_clt_gre_bs_cr_fermi.mnc');
+    [~, b1{2}]=niak_read_minc('b1_whole_brain/b1_clt_gre_bs_cr_fermi.mnc');
+    [~, b1{3}]=niak_read_minc('b1_whole_brain/b1_clt_afi.mnc');
     [~, b1{4}]=niak_read_minc('b1_whole_brain/b1_epseg_da.mnc');
 
 
     [~, blur{1}]=niak_read_minc('b1_gauss/b1_clt_tse.mnc');
-    [~, blur{2}]=niak_read_minc('b1_gauss/b1_clt_afi.mnc');
-    [~, blur{3}]=niak_read_minc('b1_gauss/b1_clt_gre_bs_cr_fermi.mnc');
+    [~, blur{2}]=niak_read_minc('b1_gauss/b1_clt_gre_bs_cr_fermi.mnc');
+    [~, blur{3}]=niak_read_minc('b1_gauss/b1_clt_afi.mnc');
     [~, blur{4}]=niak_read_minc('b1_gauss/b1_epseg_da.mnc');
 
     [~,mask]=niak_read_minc(maskFile);
