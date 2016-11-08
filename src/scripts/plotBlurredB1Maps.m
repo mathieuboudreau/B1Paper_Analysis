@@ -21,6 +21,8 @@ maskFile = 'brain_mask_es_2x2x5.mnc';
 subjectIDs = dirs2cells(dataDir);
 numSubjects = size(subjectIDs,1);
 
+customBWRmap = createBWRcolormap();
+
 %%
 %
 
@@ -41,15 +43,46 @@ for counterSubject = 1:numSubjects
     [~, blur{4}]=niak_read_minc('b1_gauss/b1_epseg_da.mnc');
 
     [~,mask]=niak_read_minc(maskFile);
-    
+
     mask = logical(mask);
+
+    %%
+    %
 
     for ii = 1:length(b1)
         rawB1{ii} = imrotate(b1{ii}.*mask,-90);
         blurB1{ii} = imrotate(blur{ii}.*mask,-90);
     end
 
-    figure(counterSubject), imagesc([rawB1{1:4}; blurB1{1:4}]), caxis([0.7 1.2]), colormap(jet),  axis image
+    figure(counterSubject*100 + 1), imagesc([rawB1{1:4}; blurB1{1:4}]), caxis([0.7 1.2]), colormap(jet),  axis image
+
+    %%
+    %
+
+    for ii = 1:length(b1)
+        pDiff{ii} = (blurB1{ii}-rawB1{ii})./rawB1{ii}.*100;
+    end
+
+    figure(counterSubject*100 + 2), imagesc([pDiff{1:4}]), caxis([-5 5]), colormap(customBWRmap),  axis image
+
+    %%
+    %
+
+    for ii = 1:length(b1)
+        pDiffRawRelRef{ii} = (rawB1{1}-rawB1{ii})./rawB1{1}.*100;
+    end
+
+    figure(counterSubject*100 + 3), imagesc([pDiffRawRelRef{1:4}]), caxis([-10 10]), colormap(customBWRmap),  axis image
+
+    %%
+    %
+
+    for ii = 1:length(b1)
+        pDiffRelRef{ii} = (blurB1{1}-blurB1{ii})./blurB1{1}.*100;
+    end
+
+    figure(counterSubject*100 + 4), imagesc([pDiffRelRef{1:4}]), caxis([-10 10]), colormap(customBWRmap),  axis image
+
 end
 
 cd(oldDir)
