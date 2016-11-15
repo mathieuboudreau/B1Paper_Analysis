@@ -80,7 +80,7 @@ for counterSubject = 1:numSubjects
     %
 
     for ii = 1:length(b1)
-        pDiffRawRelRef{ii} = (rawB1{1}-rawB1{ii})./rawB1{1}.*100;
+        pDiffRawRelRef{ii} = (rawB1{ii}-rawB1{1})./rawB1{1}.*100;
     end
 
     figure(counterSubject*100 + 3), imagesc([pDiffRawRelRef{1:4}]), caxis([-10 10]), colormap(customBWRmap),  axis image
@@ -89,7 +89,7 @@ for counterSubject = 1:numSubjects
     %
 
     for ii = 1:length(b1)
-        pDiffRelRef{ii} = (blurB1{1}-blurB1{ii})./blurB1{1}.*100;
+        pDiffRelRef{ii} = (blurB1{ii}-blurB1{1})./blurB1{1}.*100;
     end
 
     figure(counterSubject*100 + 4), imagesc([pDiffRelRef{1:4}]), caxis([-10 10]), colormap(customBWRmap),  axis image
@@ -115,14 +115,14 @@ end
 for ii = 1:4
     pooledBlurredB1{ii}(isnan(pooledBlurredB1{ii}))=[];
     pooledBlurredB1{ii}(isinf(pooledBlurredB1{ii}))=[];
-    pooledBlurredB1{ii}(abs(pooledBlurredB1{ii}-100)<0.01)=[];
+    pooledBlurredB1{ii}(abs(abs(pooledBlurredB1{ii})-100)<0.01)=[];
 
     prctile(abs(pooledBlurredB1{ii}),95)
 end
 
 pDiffNominalRelRef(isnan(pDiffNominalRelRef))=[];
 pDiffNominalRelRef(isinf(pDiffNominalRelRef))=[];
-pDiffNominalRelRef(abs(pDiffNominalRelRef-100)<0.01)=[];
+pDiffNominalRelRef(abs(abs(pDiffNominalRelRef)-100)<0.01)=[]; % Outliers
 
 prctile(abs(pDiffNominalRelRef),95)
 
